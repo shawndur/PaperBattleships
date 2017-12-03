@@ -15,4 +15,7 @@
     display: grid;
     justify-content: center;
     align-content: center;
+    background: black;
+    grid-gap: 1px;
+    border: 1px solid black;
 }
