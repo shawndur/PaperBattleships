@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const MessageBox = (props) => {
-    return <h3>Message Box</h3>
+    return <h3>{props.message}</h3>
 }
 
 MessageBox.propTypes = {
