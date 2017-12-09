@@ -4,8 +4,9 @@ import '../../css/Square.css'
 
 const Square = (props) => {
     const styles = {
-        gridArea: `${props.row} / ${props.col} / span 1 span 1`
-    }
+        gridArea: `${props.row} / ${props.col} / span 1 / span 1`
+    };
+    console.log(styles.gridArea);
     return (
         <div className="Square" style={styles}>
         </div>
