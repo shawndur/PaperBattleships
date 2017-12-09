@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types'
-import Grid from './Grid';
-import GridItem from './GridItem';
+import Grid from '../Grid/Grid';
+import GridItem from '../Grid/GridItem';
 import Square from './Square';
-import '../css/Board.css'
+import '../../css/Board.css'
 
 const Board = (props) => {
     const rows = props.rows;

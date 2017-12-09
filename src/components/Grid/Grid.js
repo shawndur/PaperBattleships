@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import '../css/Grid.css'
+import '../../css/Grid.css'
 
 const Grid = (props) => {
     const rows = props.rows;

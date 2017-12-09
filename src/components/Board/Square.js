@@ -1,6 +1,6 @@
 import React from "react";
 //import PropTypes from 'prop-types';
-import '../css/Square.css'
+import '../../css/Square.css'
 
 const Square = (props) => {
     return (
