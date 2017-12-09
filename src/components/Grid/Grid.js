@@ -3,10 +3,8 @@ import PropTypes from 'prop-types';
 import '../../css/Grid.css'
 
 const Grid = (props) => {
-    const rows = props.rows;
-    const columns = props.columns;
     const styles = {
-        gridTemplate: "repeat("+rows+",1fr) / repeat("+columns+",1fr)"
+        gridTemplate: `repeat(${props.rows},1fr) / repeat(${props.columns},1fr)`
     };
     
     return (

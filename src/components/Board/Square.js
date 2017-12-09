@@ -13,8 +13,15 @@ const Square = (props) => {
 }
 
 Square.propTypes = {
-    row: PropTypes.number.isRequired,
-    col: PropTypes.number.isRequired
+    row: PropTypes.oneOfType([
+        PropTypes.number,
+        PropTypes.string
+    ]).isRequired,
+
+    col: PropTypes.oneOfType([
+        PropTypes.number,
+        PropTypes.string
+    ]).isRequired
 }
 
 export default Square;
