@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types'
 import Grid from '../Grid/Grid';
-import GridItem from '../Grid/GridItem';
 import Square from './Square';
 import '../../css/Board.css'
 
@@ -11,16 +10,8 @@ const Board = (props) => {
     const squares = [];
     for (let i=1; i<=rows; ++i) {
         for (let j=1; j<=columns; ++j) {
-            const pos = {
-                row: [i,1],
-                col: [j,1],
-                spanRow: true,
-                spanCol: true
-            }
             squares.push(
-                <GridItem key={"grid-square:"+i+","+j} pos={pos}>
-                    <Square />
-                </GridItem>
+                <Square key={"grid-square:"+i+","+j} row={i} col={j}/>
             );
         }
     }
