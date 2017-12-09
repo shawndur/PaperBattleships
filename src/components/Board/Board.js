@@ -29,6 +29,7 @@ const Board = (props) => {
         <div className='Board'>
             <Grid rows={rows} columns={columns}>
                 {squares}
+                {props.children}
             </Grid>
         </div>
     )
@@ -43,7 +44,9 @@ Board.propTypes = {
     columns: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.number
-    ]).isRequired
+    ]).isRequired,
+
+    children: PropTypes.node
 }
 
 export default Board;
