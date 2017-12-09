@@ -25,7 +25,9 @@ Grid.propTypes = {
     columns: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.number
-    ]).isRequired
+    ]).isRequired,
+
+    children: PropTypes.node.isRequired
 }
 
 export default Grid;

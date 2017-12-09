@@ -29,7 +29,9 @@ GridItem.propTypes = {
         col: tuplePropType.isRequired,
         spanRow: PropTypes.bool.isRequired, 
         spanCol: PropTypes.bool.isRequired
-    }).isRequired
+    }).isRequired,
+
+    children: PropTypes.node.isRequired
 }
 
 export default GridItem
