@@ -1,0 +1,15 @@
+.Board {
+    width: 30%;
+    height: 0;
+    padding-top: 30%;
+    position: relative;
+    margin: auto;
+}
+
+.Board .Grid {
+    justify-content: center;
+    align-content: center;
+    background: black;
+    grid-gap: 1px;
+    border: 1px solid black;
+}

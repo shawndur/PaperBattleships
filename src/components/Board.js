@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import Grid from './Grid';
 import GridItem from './GridItem';
 import Square from './Square';
+import '../css/Board.css'
 
 const Board = (props) => {
     const rows = props.rows;
@@ -25,9 +26,11 @@ const Board = (props) => {
     }
 
     return (
-        <Grid rows={rows} columns={columns}>
-            {squares}
-        </Grid>
+        <div className='Board'>
+            <Grid rows={rows} columns={columns}>
+                {squares}
+            </Grid>
+        </div>
     )
 }
 

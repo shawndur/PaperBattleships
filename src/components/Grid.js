@@ -10,10 +10,8 @@ const Grid = (props) => {
     };
     
     return (
-        <div className="Grid-container">
-            <div className="Grid" style={styles}>
-                {props.children}
-            </div>
+        <div className="Grid" style={styles}>
+            {props.children}
         </div>
     )
 }
