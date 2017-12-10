@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Circle from './Circle';
 
 const Miss = (props) => {
@@ -11,6 +12,11 @@ const Miss = (props) => {
             <Circle color='White' />
         </div>
     )
+}
+
+Miss.propTypes = {
+    row: PropTypes.number.isRequired,
+    col: PropTypes.number.isRequired
 }
 
 export default Miss;

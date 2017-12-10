@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import '../../css/Circle.css'
 
 const Circle = (props) => {
@@ -9,6 +10,10 @@ const Circle = (props) => {
             </svg>
         </div>
     );
+}
+
+Circle.propTypes = {
+    color: PropTypes.string.isRequired
 }
 
 export default Circle

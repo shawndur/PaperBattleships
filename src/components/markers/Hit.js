@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Circle from './Circle';
 
 const Hit = (props) => {
@@ -11,6 +12,11 @@ const Hit = (props) => {
             <Circle color='red' />
         </div>
     )
+}
+
+Hit.propTypes = {
+    row: PropTypes.number.isRequired,
+    col: PropTypes.number.isRequired
 }
 
 export default Hit;
