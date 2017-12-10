@@ -11,17 +11,15 @@ const Ship = (props) => {
         case 'N':
             styles.gridArea = `span ${props.size} / ${props.col} / ${props.row+1} / span 1`;
             break;
-        case 'E':
-            styles.gridArea = `${props.row} / ${props.col} / span 1 / span ${props.size}`;
-            break;
         case 'S':
             styles.gridArea = `${props.row} / ${props.col} / span ${props.size} / span 1`;
             break;
         case 'W':
             styles.gridArea = `${props.row} / span ${props.size} / span 1 / ${props.col+1}`;
             break;
-
-        default: break;
+        case 'E':
+        default:
+            styles.gridArea = `${props.row} / ${props.col} / span 1 / span ${props.size}`;
     }
     
     return (
@@ -33,7 +31,7 @@ const Ship = (props) => {
 
 Ship.propTypes = {
     size: PropTypes.number.isRequired,
-    dir: PropTypes.oneOf(['N','S','E','W']).isRequired,
+    dir: PropTypes.oneOf(['N','S','E','W']),
     row: PropTypes.number.isRequired,
     col: PropTypes.number.isRequired
 }
