@@ -1,8 +1,9 @@
-.Circle {
+.Marker {
+    z-index: 20;
     overflow: hidden;
 }
 
-.Circle svg {
+.Marker svg {
     height: 100%;
     width: 100%;
     display: block;
