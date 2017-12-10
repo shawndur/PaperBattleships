@@ -1,5 +1,5 @@
 import React from 'react';
-import Grid from  './Grid/Grid';
+import Grid from  './grid/Grid';
 import Ship from './Ship';
 import '../css/ShipTray.css'
 

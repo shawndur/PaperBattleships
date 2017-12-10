@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types'
-import Grid from '../Grid/Grid';
+import Grid from '../grid/Grid';
 import Square from './Square';
 import '../../css/Board.css'
 
