@@ -1,4 +1,4 @@
-.Board {
+.Board-container {
     width: 30%;
     height: 0;
     padding-top: 30%;
@@ -6,7 +6,13 @@
     margin: auto;
 }
 
-.Board .Grid {
+.Board {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: grid;
     justify-content: center;
     align-content: center;
     background: black;
@@ -19,6 +25,4 @@
     width: 100%;
     background: lightblue;
     z-index: 0;
-    grid-row-end: span 1;
-    grid-column-end: span 1;
 }
