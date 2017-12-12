@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types'
-import '../../css/Board.css'
+import '../css/Board.css'
 
 const Board = (props) => {
     const squares = [];
