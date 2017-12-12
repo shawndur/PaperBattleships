@@ -1,24 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types'
 import Grid from '../grid/Grid';
-import Square from './Square';
 import '../../css/Board.css'
 
 const Board = (props) => {
-    const rows = props.rows;
-    const columns = props.columns;
     const squares = [];
-    for (let i=1; i<=rows; ++i) {
-        for (let j=1; j<=columns; ++j) {
+    for (let i=1; i<=props.rows; ++i) {
+        for (let j=1; j<=props.columns; ++j) {
             squares.push(
-                <Square key={"grid-square:"+i+","+j} row={i} col={j}/>
+                <div className='square' key={`%{i},%{j}`} 
+                     style={{ gridArea: `${i} / %{j} / span 1 / span 1` }}/>
             );
         }
     }
 
     return (
         <div className='Board'>
-            <Grid rows={rows} columns={columns}>
+            <Grid rows={props.rows} columns={props.columns}>
                 {squares}
                 {props.children}
             </Grid>
