@@ -4,6 +4,7 @@
     padding-top: 30%;
     position: relative;
     margin: auto;
+    display: inline-block;
 }
 
 .Board {
