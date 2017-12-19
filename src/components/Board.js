@@ -3,9 +3,10 @@ import PropTypes from 'prop-types'
 import '../css/Board.css'
 
 const Board = (props) => {
+    const {rows, cols} = props.gameConfig.boardSize;
     const squares = [];
-    for (let i=1; i<=props.rows; ++i) {
-        for (let j=1; j<=props.columns; ++j) {
+    for (let i=1; i<=rows; ++i) {
+        for (let j=1; j<=cols; ++j) {
             squares.push(
                 <div 
                     className='square' key={i+','+j} 
@@ -19,7 +20,7 @@ const Board = (props) => {
         <div className='Board-container'>
             <div 
                 className='Board' 
-                style={{gridTemplate: `repeat(${props.rows},1fr) / repeat(${props.columns},1fr)`}}
+                style={{gridTemplate: `repeat(${rows},1fr) / repeat(${cols},1fr)`}}
             >
                 {squares}
                 {props.children}
@@ -29,16 +30,12 @@ const Board = (props) => {
 }
 
 Board.propTypes = {
-    rows: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.number
-    ]).isRequired,
-      
-    columns: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.number
-    ]).isRequired,
-
+    gameConfig: PropTypes.shape({
+        boardSize: PropTypes.shape({
+            rows: PropTypes.number.isRequired,
+            cols: PropTypes.number.isRequired
+        }).isRequired
+    }).isRequired,
     children: PropTypes.node
 }
 

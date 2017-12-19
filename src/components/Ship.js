@@ -4,36 +4,74 @@ import Img from '../res/ship.svg';
 import '../css/Ship.css'
 
 const Ship = (props) => {
-    const styles = {
-    };
+    const {id, dir, sunk, row, col} = props.ship;
+    const {img, size} = props.gameConfig.shipInfo[id];
+    const styles = {};
 
-    switch (props.dir) {
+    switch (dir) {
         case 'N':
-            styles.gridArea = `span ${props.size} / ${props.col} / ${props.row+1} / span 1`;
+            styles.gridArea = `span ${size} / ${col} / ${row+1} / span 1`;
             break;
         case 'S':
-            styles.gridArea = `${props.row} / ${props.col} / span ${props.size} / span 1`;
+            styles.gridArea = `${row} / ${col} / span ${size} / span 1`;
             break;
         case 'W':
-            styles.gridArea = `${props.row} / span ${props.size} / span 1 / ${props.col+1}`;
+            styles.gridArea = `${row} / span ${size} / span 1 / ${col+1}`;
             break;
         case 'E':
         default:
-            styles.gridArea = `${props.row} / ${props.col} / span 1 / span ${props.size}`;
+            styles.gridArea = `${row} / ${col} / span 1 / span ${size}`;
     }
     
     return (
         <div className='Ship' style={styles}>
-            <img className={props.dir} src={Img} alt='a paper ship' />
+            <img className={dir} src={img} alt='a paper ship' />
         </div>
     )
 }
 
 Ship.propTypes = {
-    size: PropTypes.number.isRequired,
-    dir: PropTypes.oneOf(['N','S','E','W']),
-    row: PropTypes.number.isRequired,
-    col: PropTypes.number.isRequired
+    ship: PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        dir: PropTypes.oneOf(['N','S','E','W']),
+        sunk: PropTypes.bool,
+        row: PropTypes.number.isRequired,
+        col: PropTypes.number.isRequired
+    }).isRequired,
+
+    gameConfig: PropTypes.shape({
+        shipInfo: function(props, propName, componentName, location, propFullName) {
+            const prop = props[propName];
+
+            //check that prop is an object and exists
+            if (prop === 'null' || typeof prop !== 'object') {
+                return new Error(
+                    `Invalid prop ${propFullName} supplied to ${componentName}.`
+                    + ` Expected an object`
+                );
+            }
+
+            //check shape of each item in prop
+            for (let shipId in prop) {
+                //expected shape of each item in prop 
+                let shape = {
+                    size: 'number',
+                    name: 'string',
+                    img: 'string'
+                }
+
+                for (let key in shape){
+                    //check that item in prop has expected property
+                    if (typeof prop[shipId][key] !== shape[key]) {
+                        return new Error(
+                            `Invalid prop ${propFullName}.${shipId}.${key} supplied to ${componentName}.`
+                            + ` Expected an ${shape[key]}`
+                        );
+                    }
+                }
+            }
+        }
+    }).isRequired
 }
 
 export default Ship;
