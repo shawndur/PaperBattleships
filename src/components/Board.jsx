@@ -2,6 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types'
 import '../css/Board.css'
 
+function handleClick(e) {
+    console.log(e.target);
+}
+
 const Board = (props) => {
     const {rows, cols} = props.gameConfig.boardSize;
     const squares = [];
@@ -21,6 +25,7 @@ const Board = (props) => {
             <div 
                 className='Board' 
                 style={{gridTemplate: `repeat(${rows},1fr) / repeat(${cols},1fr)`}}
+                onClick={handleClick}
             >
                 {squares}
                 {props.children}
@@ -36,7 +41,8 @@ Board.propTypes = {
             cols: PropTypes.number.isRequired
         }).isRequired
     }).isRequired,
-    children: PropTypes.node
+    children: PropTypes.node,
+    onClick: PropTypes.func
 }
 
 export default Board;
