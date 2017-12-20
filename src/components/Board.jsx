@@ -2,18 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types'
 import '../css/Board.css'
 
-function handleClick(e) {
-    console.log(e.target);
-}
-
 const Board = (props) => {
     const {rows, cols} = props.gameConfig.boardSize;
+
+    const handleClick = props.onClick ? (e) => {
+        const coord = e.target.id;
+        props.onClick(coord[0], coord[1]);
+    } : undefined;
+    
     const squares = [];
     for (let i=1; i<=rows; ++i) {
         for (let j=1; j<=cols; ++j) {
             squares.push(
                 <div 
-                    className='square' key={i+','+j} 
+                    className='square' key={i+','+j} id={i+','+j}
                     style={{ gridArea: `${i} / %{j} / span 1 / span 1` }}
                 />
             );
