@@ -16,7 +16,7 @@ const ShipTray = (props) => {
         if (size > cols) { cols = size };
 
         ships.push(
-            <Ship ship={{id: shipId, row: rows, col: 1}} gameConfig={props.gameConfig}/>
+            <Ship key={shipId} ship={{id: shipId, row: rows, col: 1}} gameConfig={props.gameConfig}/>
         );
     }
 
