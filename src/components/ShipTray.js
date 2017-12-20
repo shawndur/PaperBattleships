@@ -4,14 +4,26 @@ import Ship from './Ship';
 import '../css/ShipTray.css';
 
 const ShipTray = (props) => {
+    const shipInfo = props.gameConfig.shipInfo;
+    const ships = [];
+    let rows = 0;
+    let cols =  0; 
+
+    for (let shipId in shipInfo) {
+        const size = shipInfo[shipId].size;
+
+        ++rows;
+        if (size > cols) { cols = size };
+
+        ships.push(
+            <Ship ship={{id: shipId, row: rows, col: 1}} gameConfig={props.gameConfig}/>
+        );
+    }
+
     return(
         <div className='ShipTray-container'>
-            <div className='ShipTray'>
-                <Ship ship={{id:'ac', row: 1, col: 1}} gameConfig={props.gameConfig} />
-                <Ship ship={{id:'bs', row: 2, col: 1}} gameConfig={props.gameConfig} />
-                <Ship ship={{id:'cs', row: 3, col: 1}} gameConfig={props.gameConfig} />
-                <Ship ship={{id:'sb', row: 3, col: 4}} gameConfig={props.gameConfig} />
-                <Ship ship={{id:'ds', row: 2, col: 5}} gameConfig={props.gameConfig} />
+            <div className='ShipTray' style={{gridTemplate: `repeat(${rows},1fr) / repeat(${cols},1fr)`}}>
+                {ships}
             </div>
         </div>
     );
