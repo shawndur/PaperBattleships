@@ -7,6 +7,18 @@ import MainMenu from './components/MainMenu';
 import GameOver from './components/GameOver';
 
 class App extends Component {
+  handleGameStart(mode) {
+
+  }
+
+  handleGameEnd(winner) {
+
+  }
+
+  handleNewGame() {
+
+  }
+  
   render() {
     return (
       <div className="App">
@@ -17,9 +29,9 @@ class App extends Component {
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
-        <MainMenu />
-        <Game />
-        <GameOver winner="Player 1" />
+        <MainMenu onGameStart={this.handleGameStart} />
+        <Game onGameEnd={this.handleGameEnd} />
+        <GameOver onNewGame={this.handleNewGame} winner="Player 1" />
       </div>
     );
   }
