@@ -6,7 +6,7 @@ const Board = (props) => {
     const {rows, cols} = props.gameConfig.boardSize;
 
     const handleClick = props.onClick ? (e) => {
-        const coord = e.target.id;
+        const coord = e.target.id.split(',');
         props.onClick(coord[0], coord[1]);
     } : undefined;
     
