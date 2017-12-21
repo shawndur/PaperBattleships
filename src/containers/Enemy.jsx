@@ -4,10 +4,14 @@ import Board from '../components/Board';
 import ShipTray from '../components/ShipTray';
 
 class Enemy extends Component {
+    handleBoardClick(row, col) {
+
+    } 
+
     render() {
         return ( 
             <div className='Player'>
-                <Board gameConfig={this.props.gameConfig} />
+                <Board gameConfig={this.props.gameConfig} onClick={this.handleBoardClick} />
                 <ShipTray gameConfig={this.props.gameConfig} />
             </div>
         );
