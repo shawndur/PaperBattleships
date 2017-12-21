@@ -7,10 +7,14 @@ class Player extends Component {
 
     }
 
+    handleShipSelect(shipId) {
+
+    }
+
     render() {
         return ( 
             <div className='Player'>
-                <ShipTray gameConfig={this.props.gameConfig} />
+                <ShipTray gameConfig={this.props.gameConfig} onShipSelect={this.handleShipSelect}/>
                 <Board gameConfig={this.props.gameConfig} onClick={this.handleBoardClick} />
             </div>
         );

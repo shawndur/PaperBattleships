@@ -8,6 +8,7 @@ const ShipTray = (props) => {
     const ships = [];
     let rows = 0;
     let cols =  0; 
+    const handleClick = props.onShipSelect ? (e) => props.onShipSelect(e.target.id) : undefined;
 
     for (let shipId in shipInfo) {
         const size = shipInfo[shipId].size;
@@ -16,13 +17,17 @@ const ShipTray = (props) => {
         if (size > cols) { cols = size };
 
         ships.push(
-            <Ship key={shipId} ship={{id: shipId, row: rows, col: 1}} gameConfig={props.gameConfig}/>
+            <Ship key={shipId} id={shipId} gameConfig={props.gameConfig}
+                ship={{id: shipId, row: rows, col: 1}} />
+
         );
     }
 
     return(
         <div className='ShipTray-container'>
-            <div className='ShipTray' style={{gridTemplate: `repeat(${rows},1fr) / repeat(${cols},1fr)`}}>
+            <div className='ShipTray' onClick={handleClick}
+                style={{gridTemplate: `repeat(${rows},1fr) / repeat(${cols},1fr)`}} 
+            >
                 {ships}
             </div>
         </div>
@@ -62,7 +67,8 @@ ShipTray.propTypes = {
                 }
             }
         }
-    }).isRequired
+    }).isRequired,
+    onShipSelect: PropTypes.func
 }
 
 export default ShipTray;
