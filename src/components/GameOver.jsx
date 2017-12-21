@@ -9,14 +9,17 @@ const GameOver = (props) => {
                 <h3>{props.winner} Won!!</h3>
             </header>
             <nav>
-                <button>NewGame</button>
+                <button onClick={props.onNewGame}>
+                    NewGame
+                </button>
             </nav>
         </div>
     );
 }
 
 GameOver.propTypes = {
-    winner: PropTypes.string.isRequired
+    winner: PropTypes.string.isRequired,
+    onNewGame: PropTypes.func.isRequired
 }
 
 export default GameOver;
