@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import Enemy from  './Enemy';
 import Player from './Player';
 import MessageBox from '../components/MessageBox';
@@ -49,6 +50,10 @@ class Game extends Component {
             </div>
         );
     }
+}
+
+Game.propTypes = {
+    onGameEnd: PropTypes.func.isRequired
 }
 
 export default Game;
