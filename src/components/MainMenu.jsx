@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import '../css/MainMenu.css';
 
 const MainMenu = (props) => {
@@ -8,11 +9,19 @@ const MainMenu = (props) => {
                 <h1>Paper Battleships</h1>
             </header>
             <nav>
-                <button>SinglePlayer</button>
-                <button disabled="disabled">MultiPlayer</button>
+                <button onClick={()=>props.onGameStart('single')}>
+                    SinglePlayer
+                </button>
+                <button onClick={()=>props.onGameStart('multi')} disabled="disabled">
+                    MultiPlayer
+                </button>
             </nav>
         </div>
     );
+}
+
+MainMenu.propTypes = {
+    onGameStart: PropTypes.func.isRequired
 }
 
 export default MainMenu;
