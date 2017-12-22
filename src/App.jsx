@@ -7,19 +7,54 @@ import MainMenu from './components/MainMenu';
 import GameOver from './components/GameOver';
 
 class App extends Component {
-  handleGameStart(mode) {
+  constructor(props) {
+    super(props);
 
+    this.handleGameStart = this.handleGameStart.bind(this);
+    this.handleGameEnd = this.handleGameEnd.bind(this);
+    this.handleNewGame = this.handleNewGame.bind(this);
+
+    this.state = {
+      gameState: 'new'
+    }
+  }
+
+  handleGameStart(mode) {
+    this.setState({
+      gameState: 'started'
+    });
   }
 
   handleGameEnd(winner) {
-
+    this.setState({
+      gameState: 'over',
+      winner: winner
+    });
   }
 
   handleNewGame() {
-
+    this.setState({
+      gameState: 'new'
+    });
   }
   
   render() {
+    let game;
+    switch (this.state.gameState) {
+      case 'new':
+        game = <MainMenu onGameStart={this.handleGameStart} />
+        break;
+      
+      case 'started':
+        game = <Game onGameEnd={this.handleGameEnd} />
+        break;
+      
+      case 'over':
+      default:
+        game = <GameOver onNewGame={this.handleNewGame} winner={this.state.winner} />
+        break;
+    }
+
     return (
       <div className="App">
         <header className="App-header">
@@ -29,9 +64,7 @@ class App extends Component {
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
-        <MainMenu onGameStart={this.handleGameStart} />
-        <Game onGameEnd={this.handleGameEnd} />
-        <GameOver onNewGame={this.handleNewGame} winner="Player 1" />
+        {game}
       </div>
     );
   }
