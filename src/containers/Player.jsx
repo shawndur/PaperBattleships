@@ -21,10 +21,10 @@ class Player extends Component {
         const {ships, selectedShip} = this.state;
         const shipInfo = this.props.gameConfig.shipInfo;
 
+        if (!selectedShip) { return; }
+        
         selectedShip.row = row;
         selectedShip.col = col;
-
-        if (!selectedShip) { return; }
         
         if (ships.some((ship) => ship.id === selectedShip.id || 
             isCollision(selectedShip, ship, shipInfo))) { return; }
@@ -32,14 +32,15 @@ class Player extends Component {
         ships.push(selectedShip);
 
         this.setState({
-            ships: ships
+            ships: ships,
+            selectedShip: undefined
         });
     }
 
     handleShipSelect(shipId, horizontal) {
         this.setState({
             selectedShip: {
-                shipId: shipId,
+                id: shipId,
                 sunk: false,
                 horizontal: horizontal
             }
