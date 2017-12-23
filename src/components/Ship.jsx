@@ -4,28 +4,17 @@ import PropTypes from 'prop-types';
 import '../css/Ship.css'
 
 const Ship = (props) => {
-    const {id, dir, /*sunk,*/ row, col} = props.ship;
+    const {id, horizontal, /*sunk,*/ row, col} = props.ship;
     const {img, size} = props.gameConfig.shipInfo[id];
-    const styles = {};
-
-    switch (dir) {
-        case 'N':
-            styles.gridArea = `span ${size} / ${col} / ${row+1} / span 1`;
-            break;
-        case 'S':
-            styles.gridArea = `${row} / ${col} / span ${size} / span 1`;
-            break;
-        case 'W':
-            styles.gridArea = `${row} / span ${size} / span 1 / ${col+1}`;
-            break;
-        case 'E':
-        default:
-            styles.gridArea = `${row} / ${col} / span 1 / span ${size}`;
-    }
+    const styles = {
+        gridArea: `${row} / ${col} / ` + (horizontal ? `span 1 / span ${size}` :
+            `span ${size} / span 1`)
+    };
     
     return (
         <div className='Ship' style={styles}>
-            <img className={dir} src={img} alt='a paper ship' />
+            <img className={horizontal ? 'horizontal' : 'vertical'} 
+                src={img} alt='a paper ship' />
         </div>
     )
 }
@@ -33,7 +22,7 @@ const Ship = (props) => {
 Ship.propTypes = {
     ship: PropTypes.shape({
         id: PropTypes.string.isRequired,
-        dir: PropTypes.oneOf(['N','S','E','W']),
+        horizontal: PropTypes.bool.isRequired,
         sunk: PropTypes.bool,
         row: PropTypes.number.isRequired,
         col: PropTypes.number.isRequired
