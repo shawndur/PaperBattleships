@@ -73,6 +73,8 @@ class Enemy extends Component {
         this.setState({
             ships: ships
         });
+
+        this.props.onReady(false);
     }
 
     render() {

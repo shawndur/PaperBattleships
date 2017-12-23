@@ -42,6 +42,9 @@ class Player extends Component {
             ships: ships,
             //selectedShip: undefined
         });
+        if (ships.length === Object.keys(shipInfo).length) {
+            this.props.onReady(true);
+        }
     }
 
     handleShipSelect(shipId, horizontal) {
