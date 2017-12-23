@@ -1,7 +1,7 @@
 function Coord(ship, shipInfo){
-    const {row, col, id} = ship;
+    const {row, col, horizontal, id} = ship;
     const size = shipInfo[id].size;
-    
+
     this.row = {
         min: row,
         max: horizontal ? row : row + size - 1
