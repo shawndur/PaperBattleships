@@ -3,6 +3,7 @@ import Board from '../components/Board';
 import ShipTray from '../components/ShipTray';
 import {isCollision, isHit} from '../helpers/ships';
 import Shot from '../components/Shot';
+import Ship from '../components/Ship';
 
 class Enemy extends Component {
     constructor(props) {
@@ -79,10 +80,18 @@ class Enemy extends Component {
             <Shot key={shot.row+','+shot.col} shot={shot} />
         );
 
+        const sunkShips = this.state.ships.reduce((res,ship)=> {
+            if (ship.sunk) {
+                res.push(<Ship key={ship.id} ship={ship} gameConfig={this.props.gameConfig} />);
+            }
+            return res;
+        }, []);
+
         return ( 
             <div className='Enemy'>
                 <Board gameConfig={this.props.gameConfig} onClick={this.handleBoardClick} >
                     {shots}
+                    {sunkShips}
                 </Board>
                 <ShipTray gameConfig={this.props.gameConfig} />
             </div>
