@@ -29,7 +29,7 @@ function collides(aCoord, bCoord) {
     return !(
         bCoord.col.min > aCoord.col.max ||
         bCoord.col.max < aCoord.col.min ||
-        bCoord.row.min > aCoord.col.max || 
+        bCoord.row.min > aCoord.row.max || 
         bCoord.row.max < aCoord.row.min
     );
 }
