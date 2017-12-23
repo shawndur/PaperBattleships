@@ -8,7 +8,7 @@ const ShipTray = (props) => {
     const ships = [];
     let rows = 0;
     let cols =  0; 
-    const handleClick = props.onShipSelect ? (e) => props.onShipSelect(e.target.id) : undefined;
+    const handleClick = props.onShipSelect ? (e) => props.onShipSelect(e.target.id, true) : undefined;
 
     for (let shipId in shipInfo) {
         const size = shipInfo[shipId].size;

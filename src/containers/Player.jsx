@@ -21,6 +21,9 @@ class Player extends Component {
         const {ships, selectedShip} = this.state;
         const shipInfo = this.props.gameConfig.shipInfo;
 
+        selectedShip.row = row;
+        selectedShip.col = col;
+
         if (!selectedShip) { return; }
         
         if (ships.some((ship) => ship.id === selectedShip.id || 
@@ -33,9 +36,13 @@ class Player extends Component {
         });
     }
 
-    handleShipSelect(ship) {
+    handleShipSelect(shipId, horizontal) {
         this.setState({
-            selectedShip: ship
+            selectedShip: {
+                shipId: shipId,
+                sunk: false,
+                horizontal: horizontal
+            }
         });
     }
 
