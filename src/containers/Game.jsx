@@ -41,12 +41,42 @@ const gameConfig = {
 }
 
 class Game extends Component {
+    constructor(props) {
+        super(props);
+
+        this.handleReady = this.handleReady.bind(this);
+        
+        this.state = {
+            phase: 'placement',
+            playerReady: false,
+            enemyReady: false
+        }
+    }
+
+    handleReady(player) {
+        let {phase, playerReady, enemyReady} = this.state;
+
+        if (player) {
+            playerReady = true;
+        } else {
+            enemyReady = true;    
+        }
+
+        if (playerReady && enemyReady) { phase = 'combat'; }
+
+        this.setState({
+            phase: phase,
+            enemyReady: enemyReady,
+            playerReady: playerReady
+        });
+    }
+    
     render() {
         return ( 
             <div className='Game'>
                 <MessageBox />
-                <Enemy gameConfig={gameConfig} />
-                <Player gameConfig={gameConfig} />
+                <Enemy onReady={this.handleReady} gameConfig={gameConfig} />
+                <Player onReady={this.handleReady} gameConfig={gameConfig} />
             </div>
         );
     }
