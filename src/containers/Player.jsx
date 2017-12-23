@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import Board from '../components/Board';
 import ShipTray from '../components/ShipTray';
 import {isCollision, isOutOfBounds} from '../helpers/ships';
@@ -67,42 +66,6 @@ class Player extends Component {
             </div>
         );
     }
-}
-
-Player.propTypes = {
-    gameConfig: PropTypes.shape({
-        shipInfo: function(props, propName, componentName, location, propFullName) {
-            const prop = props[propName];
-
-            //check that prop is an object and exists
-            if (prop === 'null' || typeof prop !== 'object') {
-                return new Error(
-                    `Invalid prop ${propFullName} supplied to ${componentName}.`
-                    + ` Expected an object`
-                );
-            }
-
-            //check shape of each item in prop
-            for (let shipId in prop) {
-                //expected shape of each item in prop 
-                let shape = {
-                    size: 'number',
-                    name: 'string',
-                    img: 'string'
-                }
-
-                for (let key in shape){
-                    //check that item in prop has expected property
-                    if (typeof prop[shipId][key] !== shape[key]) {
-                        return new Error(
-                            `Invalid prop ${propFullName}.${shipId}.${key} supplied to ${componentName}.`
-                            + ` Expected an ${shape[key]}`
-                        );
-                    }
-                }
-            }
-        }
-    }).isRequired
 }
 
 export default Player;
