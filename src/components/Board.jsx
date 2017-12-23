@@ -7,7 +7,7 @@ const Board = (props) => {
 
     const handleClick = props.onClick ? (e) => {
         const coord = e.target.id.split(',');
-        props.onClick(coord[0], coord[1]);
+        props.onClick(parseInt(coord[0], 10), parseInt(coord[1], 10));
     } : undefined;
     
     const squares = [];
@@ -16,8 +16,8 @@ const Board = (props) => {
             squares.push(
                 <div 
                     className='square' key={i+','+j} id={i+','+j}
-                    style={{ gridArea: `${i} / %{j} / span 1 / span 1` }}
-                />
+                    style={{ gridArea: `${i} / ${j} / span 1 / span 1` }}
+                ></div>
             );
         }
     }
