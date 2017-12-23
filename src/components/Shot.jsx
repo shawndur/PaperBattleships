@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import '../css/Marker.css'
+import '../css/Shot.css'
 
 const Shot = (props) => {
     const styles = {
@@ -8,7 +8,7 @@ const Shot = (props) => {
     }
     const color = props.shot.hit ? 'red' : 'white';
     return (
-        <div className='Marker' style={styles}>
+        <div className='Shot' style={styles}>
             <svg height='100' width='100'>
                 <circle cx='50%' cy='50%' r='25%' stroke='black' strokeWidth='5%' fill={color}/>
             </svg>
