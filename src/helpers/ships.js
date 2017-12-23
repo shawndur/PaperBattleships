@@ -1,4 +1,7 @@
-function Coord(row, col, horizontal, size){
+function Coord(ship, shipInfo){
+    const {row, col, id} = ship;
+    const size = shipInfo[id].size;
+    
     this.row = {
         min: row,
         max: horizontal ? row : row + size - 1
@@ -11,9 +14,9 @@ function Coord(row, col, horizontal, size){
 }
 
 
-export function isCollision(shipA, sizeA, shipB, sizeB) {
-    const aCoord = new Coord(shipA.row, shipA.col, shipA.horizontal, sizeA);
-    const bCoord = new Coord(shipB.row, shipB.col, shipB.horizontal, sizeB);
+export function isCollision(shipA, shipB, shipInfo) {
+    const aCoord = new Coord(shipA, shipInfo);
+    const bCoord = new Coord(shipB, shipInfo);
 
     return !(
         bCoord.col.min > aCoord.col.max ||

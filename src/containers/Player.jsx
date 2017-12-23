@@ -23,13 +23,7 @@ class Player extends Component {
 
         if (!selectedShip) { return; }
         
-        if (
-            ships.some(
-                (ship) => 
-                    isCollision(selectedShip, shipInfo[selectedShip.id].size, 
-                        ship, shipInfo[ship.id].size)
-            )
-        ) { return; }
+        if (ships.some((ship) => isCollision(selectedShip, ship, shipInfo))) { return; }
 
         ships.push(selectedShip);
 
