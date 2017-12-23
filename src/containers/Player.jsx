@@ -12,16 +12,18 @@ class Player extends Component {
         this.handleShipSelect = this.handleShipSelect.bind(this);
 
         this.state = {
-            ships: []
+            ships: [],
+            selectedShip: undefined
         }
     }
 
     handleBoardClick(row, col) {
-        const {ships, selectedShip} = this.state;
+        const {ships} = this.state;
+        const selectedShip = Object.assign({}, this.state.selectedShip)
         const {boardSize, shipInfo} = this.props.gameConfig;
 
         if (!selectedShip) { return; }
-        
+
         selectedShip.row = row;
         selectedShip.col = col;
        
