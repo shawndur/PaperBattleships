@@ -23,5 +23,15 @@ export function isCollision(shipA, shipB, shipInfo) {
         bCoord.col.max < aCoord.col.min ||
         bCoord.row.min > aCoord.col.max || 
         bCoord.row.max < aCoord.row.min
-    )
+    );
+}
+
+export function isOutOfBounds(ship, boardSize, shipInfo) {
+    const coord = new Coord(ship, shipInfo);
+    return (
+        coord.row.min <= 0 || 
+        coord.col.min <= 0 ||
+        coord.row.max > boardSize.rows ||
+        coord.col.max > boardSize.cols
+    );
 }

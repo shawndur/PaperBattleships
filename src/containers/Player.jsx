@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Board from '../components/Board';
 import ShipTray from '../components/ShipTray';
-import {isCollision} from '../helpers/ships';
+import {isCollision, isOutOfBounds} from '../helpers/ships';
 import Ship from '../components/Ship';
 
 class Player extends Component {
@@ -19,21 +19,27 @@ class Player extends Component {
 
     handleBoardClick(row, col) {
         const {ships, selectedShip} = this.state;
-        const shipInfo = this.props.gameConfig.shipInfo;
+        const {boardSize, shipInfo} = this.props.gameConfig;
 
         if (!selectedShip) { return; }
         
         selectedShip.row = row;
         selectedShip.col = col;
-        
-        if (ships.some((ship) => ship.id === selectedShip.id || 
-            isCollision(selectedShip, ship, shipInfo))) { return; }
+       
+        if (isOutOfBounds(selectedShip, boardSize, shipInfo)) { return; }
+
+        if (ships.some(
+            (ship) =>  
+                ship.id === selectedShip.id || 
+                isCollision(selectedShip, ship, shipInfo)
+            )
+        ) { return; }
 
         ships.push(selectedShip);
 
         this.setState({
             ships: ships,
-            selectedShip: undefined
+            //selectedShip: undefined
         });
     }
 
