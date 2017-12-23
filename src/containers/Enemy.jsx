@@ -1,19 +1,47 @@
 import React, {Component} from 'react';
 import Board from '../components/Board';
 import ShipTray from '../components/ShipTray';
-import {isCollision} from '../helpers/ships';
-
-import Ship from '../components/Ship';
+import {isCollision, isHit} from '../helpers/ships';
+import Shot from '../components/Shot';
 
 class Enemy extends Component {
     constructor(props) {
         super(props);
         
         this.handleBoardClick = this.handleBoardClick.bind(this);
+
+        this.state = {
+            shots: [],
+            ships: []
+        }
     }
 
     handleBoardClick(row, col) {
+        const {shots, ships} = this.state;
+        const shipInfo = this.props.gameConfig.shipInfo;
+        
+        if (shots.some((shot)=> shot.row === row && shot.col === col)) { return; }
 
+        const shot = {
+            row: row,
+            col: col,
+        }
+        
+        const hitShip = ships.find((ship)=> isHit(ship, shot, shipInfo));
+
+        if (hitShip) {
+            shot.hit = true;
+            hitShip.sunk = --hitShip.health <= 0;
+        } else {
+            shot.hit = false;
+        }
+
+        shots.push(shot);
+
+        this.setState({
+            shots: shots,
+            ships: ships
+        });
     }
     
     componentWillMount() {
@@ -24,7 +52,8 @@ class Enemy extends Component {
             const ship = {
                 id: shipId, 
                 sunk: false,
-                horizontal: Math.round(Math.random()) === 0
+                horizontal: Math.round(Math.random()) === 0,
+                health: shipInfo[shipId].size
             }
 
             const maxRow = ship.horizontal ? boardSize.rows : 
@@ -46,12 +75,15 @@ class Enemy extends Component {
     }
 
     render() {
-        const ships = this.state.ships.map((ship) => 
-            <Ship key={ship.id} ship={ship} gameConfig={this.props.gameConfig} />
+        const shots = this.state.shots.map((shot)=>
+            <Shot key={shot.row+','+shot.col} shot={shot} />
         );
+
         return ( 
             <div className='Enemy'>
-                <Board gameConfig={this.props.gameConfig} onClick={this.handleBoardClick} />
+                <Board gameConfig={this.props.gameConfig} onClick={this.handleBoardClick} >
+                    {shots}
+                </Board>
                 <ShipTray gameConfig={this.props.gameConfig} />
             </div>
         );
