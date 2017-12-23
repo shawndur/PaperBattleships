@@ -1,6 +1,11 @@
+.Shot * {
+    pointer-events: none;
+}
+
 .Shot {
     z-index: 20;
     overflow: hidden;
+    pointer-events: none;
 }
 
 .Shot svg {
