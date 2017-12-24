@@ -57,20 +57,17 @@ class Game extends Component {
     }
 
     handleReady(player) {
-        let {phase, playerReady, enemyReady} = this.state;
-
         if (player) {
-            playerReady = true;
+            this.setState({playerReady: true});
         } else {
-            enemyReady = true;    
+            this.setState({playerReady: true});
         }
 
-        if (playerReady && enemyReady) { phase = 'combat'; }
-
-        this.setState({
-            phase: phase,
-            enemyReady: enemyReady,
-            playerReady: playerReady
+        this.setState((prevState, props)=> {
+            const {enemyReady, playerReady} = prevState
+            return {
+                phase: playerReady && enemyReady ? 'combat' : prevState.phase
+            }
         });
     }
 
