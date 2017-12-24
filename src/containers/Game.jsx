@@ -64,7 +64,7 @@ class Game extends Component {
         }
 
         this.setState((prevState, props)=> {
-            const {enemyReady, playerReady} = prevState
+            const {enemyReady, playerReady} = prevState;
             return {
                 phase: playerReady && enemyReady ? 'combat' : prevState.phase
             }
