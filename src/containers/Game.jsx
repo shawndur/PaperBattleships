@@ -127,8 +127,12 @@ class Game extends Component {
         return ( 
             <div className='Game'>
                 <MessageBox />
-                <Enemy onReady={this.handleReady} gameConfig={gameConfig} />
-                <Player onReady={this.handleReady} gameConfig={gameConfig} />
+                <Enemy onReady={this.handleReady} onAllSunk={this.handleAllSunk}
+                       onTurnEnd={this.handleTurnEnd} canPlace={this.props.placement} 
+                       gameConfig={gameConfig} />
+                <Player onReady={this.handleReady} onAllSunk={this.handleAllSunk}
+                        onTurnEnd={this.handleTurnEnd} canPlace={this.props.placement}
+                        gameConfig={gameConfig} />
             </div>
         );
     }
