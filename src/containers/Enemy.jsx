@@ -18,30 +18,29 @@ class Enemy extends Component {
     }
 
     handleBoardClick(row, col) {
-        const {shots, ships} = this.state;
-        const shipInfo = this.props.gameConfig.shipInfo;
-        
-        if (shots.some((shot)=> shot.row === row && shot.col === col)) { return; }
-
         const shot = {
             row: row,
             col: col,
-        }
-        
-        const hitShip = ships.find((ship)=> isHit(ship, shot, shipInfo));
-
-        if (hitShip) {
-            shot.hit = true;
-            hitShip.sunk = --hitShip.health <= 0;
-        } else {
-            shot.hit = false;
+            hit: false
         }
 
-        shots.push(shot);
+        this.setState((prevState, props) => {
+            const {shots, ships} = prevState;
+            const {shipInfo} = props.gameConfig;
 
-        this.setState({
-            shots: shots,
-            ships: ships
+            if (!prevState.shots.some((shot)=> shot.row === row && shot.col === col)){
+                const hitShip = ships.find((ship)=> isHit(ship, shot, shipInfo));
+                if(hitShip) {
+                    shot.hit = true;
+                    hitShip.sunk = --hitShip.health <= 0;
+                }
+                shots.push(shot);
+            }
+
+            return {
+                shots: shots,
+                ships: ships
+            }
         });
     }
     
