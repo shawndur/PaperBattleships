@@ -4,6 +4,9 @@ import ShipTray from '../components/ShipTray';
 import {isCollision, isOutOfBounds} from '../helpers/ships';
 import Ship from '../components/Ship';
 
+/**
+ * Player container component
+ */
 class Player extends Component {
     constructor(props) {
         super(props);
@@ -17,22 +20,38 @@ class Player extends Component {
         }
     }
 
+    /**
+     * Callback function that handles a click on the board
+     * @callback Player~handleBoardClick
+     * @param {number} row - row being clicked
+     * @param {number} col - column being clicked
+     */
     handleBoardClick(row, col) {
+        //use functional setstate since nextstate depends on prevstate
         this.setState((prevState, props)=> {
             const {ships, selectedShip} = prevState;
             const gameConfig = props.gameConfig;
 
+            //if there is a selected ship
             if (selectedShip) {
+                //clone selected ship and add row and col properties
                 const ship = Object.assign({row: row, col: col}, selectedShip);
-                const valid = !(
-                    isOutOfBounds(ship, gameConfig) ||
-                    ships.some((otherShip)=>
-                        ship.id === otherShip.id ||
-                        isCollision(ship, otherShip, gameConfig.shipInfo)
+                
+                //calculate if ship placement is valid
+                const valid = !(                     //valid if not
+                    isOutOfBounds(ship, gameConfig) || //out of bounds or
+                    ships.some((otherShip)=>           //if there is some other ship
+                        ship.id === otherShip.id ||      // that has the same id or
+                        isCollision(ship, otherShip, gameConfig.shipInfo) //collides with the ship
                     )
                 );
+
+                //if the ship placement is valid
                 if (valid) {
+                    //save the ship
                     ships.push(ship);
+
+                    //if all ships are placed notify game that player is ready
                     if (ships.length === Object.keys(gameConfig.shipInfo).length) {
                         this.props.onReady(true);
                     }
@@ -43,6 +62,12 @@ class Player extends Component {
         });
     }
 
+    /**
+     * Callback function that handles a ship being selected
+     * @callback Player~handleShipSelect
+     * @param {string} shipId - id of ship that is clicked
+     * @param {bool} horizontal - true if ship should be horizontal
+     */
     handleShipSelect(shipId, horizontal) {
         this.setState({
             selectedShip: {
@@ -54,6 +79,7 @@ class Player extends Component {
     }
 
     render() {
+        //Generate ship elements to render
         const ships = this.state.ships.map((ship) => 
             <Ship key={ship.id} ship={ship} gameConfig={this.props.gameConfig} />
         );

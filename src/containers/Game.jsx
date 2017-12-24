@@ -5,6 +5,9 @@ import Player from './Player';
 import MessageBox from '../components/MessageBox';
 import Img from '../res/ship.svg';
 
+/**
+ * @todo unhardcode this
+ */
 const gameConfig = {
     multiPlayer: false,
     boardSize: {
@@ -40,6 +43,9 @@ const gameConfig = {
     }
 }
 
+/**
+ * Container component representing a game
+ */
 class Game extends Component {
     constructor(props) {
         super(props);
@@ -56,13 +62,22 @@ class Game extends Component {
         }
     }
 
+    /**
+     * Handles a player or enemy being ready
+     * @callback Game~handleReady
+     * @param {bool} player - true if player false if enemy
+     */
     handleReady(player) {
         if (player) {
+            //if player is ready set player ready state to true
             this.setState({playerReady: true});
         } else {
+            //if enemy is ready set enemy ready state to true
             this.setState({playerReady: true});
         }
 
+        //use functional setstate since nextstate relies on prevstate
+        // set phase to combat if both players are ready
         this.setState((prevState, props)=> {
             const {enemyReady, playerReady} = prevState;
             return {

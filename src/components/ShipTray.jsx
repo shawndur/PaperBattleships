@@ -3,12 +3,21 @@ import PropTypes from 'prop-types';
 import Ship from './Ship';
 import '../css/ShipTray.css';
 
+/**
+ * @todo allow rotating of ships
+ */
+
+/**
+ * Stateless functional component that renders a shiptray view 
+ * @param {*} props 
+ */
 const ShipTray = (props) => {
     const shipInfo = props.gameConfig.shipInfo;
     const ships = [];
     let rows = 0;
     let cols =  0; 
 
+    //create a ship element for each ship in shipinfo
     for (let shipId in shipInfo) {
         const size = shipInfo[shipId].size;
 

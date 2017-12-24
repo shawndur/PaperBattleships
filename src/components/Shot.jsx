@@ -2,6 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import '../css/Shot.css'
 
+/**
+ * Stateless functional component that renders a shot
+ * @param {*} props 
+ */
 const Shot = (props) => {
     const styles = {
         gridArea: `${props.shot.row} / ${props.shot.col} / span 1 / span 1`

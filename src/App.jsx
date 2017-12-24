@@ -6,6 +6,9 @@ import Game from './containers/Game';
 import MainMenu from './components/MainMenu';
 import GameOver from './components/GameOver';
 
+/**
+ * Top application component
+ */
 class App extends Component {
   constructor(props) {
     super(props);

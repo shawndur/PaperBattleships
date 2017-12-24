@@ -2,10 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import '../css/Ship.css'
 
+/**
+ * @todo make ship unclickable when on board
+ */
+
+/**
+ * Stateless functional component that renders a ship
+ * @param {*} props 
+ */
 const Ship = (props) => {
     const {id, horizontal, /*sunk,*/ row, col} = props.ship;
     const {img, size} = props.gameConfig.shipInfo[id];
     
+    //wrapper for onClick that calls the onclick function and passes the id of the ship
+    // undefined if no onclick function
     const clickHandler = props.onClick ? (e) => props.onClick(id,true) : undefined;
     
     const styles = {

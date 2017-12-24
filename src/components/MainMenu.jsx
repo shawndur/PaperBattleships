@@ -2,6 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import '../css/MainMenu.css';
 
+/**
+ * Stateless functional component that renders a main menu screen
+ * @param {*} props 
+ */
 const MainMenu = (props) => {
     return( 
         <div className='MainMenu'>

@@ -1,6 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+/**
+ * Stateless functional component that reders a gameover screen
+ * @param {*} props 
+ */
 const GameOver = (props) => {
     return (
         <div>
