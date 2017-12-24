@@ -86,6 +86,29 @@ class Game extends Component {
         });
     }
 
+    /**
+     * Handles a player or enemy ending their turn
+     * @callback Game~handleTurnEnd
+     * @param {bool} player - true if player false if enemy
+     */
+    handleTurnEnd(player) {
+        this.props.setState((prevState, props)=> {
+            const playerTurn = prevState.playerTurn;
+            //invert playerTurn if player has the turn, else don't change state
+            return playerTurn === player ? {playerTurn: !playerTurn} : {}
+        });
+    }
+
+    /**
+     * Handles a player or enemy having all their ships sunk
+     * @callback Game~handleAllSunk
+     * @param {bool} player - true if player false if enemy
+     */
+    handleAllSunk(player) {
+        //call onGameEnd passing string of winner
+        this.props.onGameEnd(player ? 'Enemy' : 'Player');
+    }
+
     handleShot(player, shot) {
         const {playerTurn} = this.state;
 
