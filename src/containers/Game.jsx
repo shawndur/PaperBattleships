@@ -54,7 +54,7 @@ class Game extends Component {
         
         this.state = {
             playerTurn: true,
-            phase: 'placement',
+            placement: true,
             playerReady: false,
             enemyReady: false,
             playerShots: [],
@@ -77,12 +77,10 @@ class Game extends Component {
         }
 
         //use functional setstate since nextstate relies on prevstate
-        // set phase to combat if both players are ready
+        // set placement to false if both players are ready
         this.setState((prevState, props)=> {
             const {enemyReady, playerReady} = prevState;
-            return {
-                phase: playerReady && enemyReady ? 'combat' : prevState.phase
-            }
+            return playerReady && enemyReady ? {placement: false} : {};
         });
     }
 
@@ -95,7 +93,7 @@ class Game extends Component {
         this.props.setState((prevState, props)=> {
             const playerTurn = prevState.playerTurn;
             //invert playerTurn if player has the turn, else don't change state
-            return playerTurn === player ? {playerTurn: !playerTurn} : {}
+            return playerTurn === player ? {playerTurn: !playerTurn} : {};
         });
     }
 
