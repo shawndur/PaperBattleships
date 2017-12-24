@@ -51,6 +51,8 @@ class Game extends Component {
         super(props);
 
         this.handleReady = this.handleReady.bind(this);
+        this.handleTurnEnd = this.handleTurnEnd.bind(this);
+        this.handleAllSunk = this.handleAllSunk.bind(this);
         
         this.state = {
             playerTurn: true,
