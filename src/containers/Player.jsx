@@ -18,33 +18,29 @@ class Player extends Component {
     }
 
     handleBoardClick(row, col) {
-        const {ships} = this.state;
-        const selectedShip = Object.assign({}, this.state.selectedShip)
-        const {boardSize, shipInfo} = this.props.gameConfig;
+        this.setState((prevState, props)=> {
+            const {ships, selectedShip} = prevState;
+            const gameConfig = props.gameConfig;
 
-        if (!selectedShip) { return; }
-
-        selectedShip.row = row;
-        selectedShip.col = col;
-       
-        if (isOutOfBounds(selectedShip, boardSize, shipInfo)) { return; }
-
-        if (ships.some(
-            (ship) =>  
-                ship.id === selectedShip.id || 
-                isCollision(selectedShip, ship, shipInfo)
-            )
-        ) { return; }
-
-        ships.push(selectedShip);
-
-        this.setState({
-            ships: ships,
+            if (selectedShip) {
+                const ship = Object.assign({row: row, col: col}, selectedShip);
+                const valid = !(
+                    isOutOfBounds(ship, gameConfig) ||
+                    ships.some((otherShip)=>
+                        ship.id === otherShip.id ||
+                        isCollision(ship, otherShip, gameConfig.shipInfo)
+                    )
+                );
+                if (valid) {
+                    ships.push(ship);
+                    if (ships.length === Object.keys(gameConfig.shipInfo).length) {
+                        this.props.onReady(true);
+                    }
+                }
+            }
+            
+            return { ships: ships }
         });
-        
-        if (ships.length === Object.keys(shipInfo).length) {
-            this.props.onReady(true);
-        }
     }
 
     handleShipSelect(shipId, horizontal) {
