@@ -47,9 +47,12 @@ class Game extends Component {
         this.handleReady = this.handleReady.bind(this);
         
         this.state = {
+            playerTurn: true,
             phase: 'placement',
             playerReady: false,
-            enemyReady: false
+            enemyReady: false,
+            playerShots: [],
+            enemyShots: []
         }
     }
 
@@ -69,6 +72,20 @@ class Game extends Component {
             enemyReady: enemyReady,
             playerReady: playerReady
         });
+    }
+
+    handleShot(player, shot) {
+        const {playerTurn} = this.state;
+
+        if (player && playerTurn) {
+            const {playerShots} = this.state;
+            playerShots.push(shot);
+            this.setState({playerShots});
+        } else if (!playerTurn) {
+            const {enemyShots} = this.state;
+            enemyShots.push(shot);
+            this.setState(enemyShots);
+        }
     }
     
     render() {
