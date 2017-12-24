@@ -81,7 +81,7 @@ class Player extends Component {
     render() {
         //Generate ship elements to render
         const ships = this.state.ships.map((ship) => 
-            <Ship key={ship.id} ship={ship} gameConfig={this.props.gameConfig} />
+            <Ship key={ship.id} noClick={true} ship={ship} gameConfig={this.props.gameConfig} />
         );
 
         return ( 

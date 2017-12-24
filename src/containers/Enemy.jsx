@@ -112,7 +112,8 @@ class Enemy extends Component {
         //generate ship elements for sunk ships
         const sunkShips = this.state.ships.reduce((res,ship)=> {
             if (ship.sunk) {
-                res.push(<Ship key={ship.id} ship={ship} gameConfig={this.props.gameConfig} />);
+                res.push(<Ship key={ship.id} noClick={true} ship={ship} 
+                               gameConfig={this.props.gameConfig} />);
             }
             return res;
         }, []);

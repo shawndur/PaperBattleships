@@ -22,6 +22,8 @@ const Ship = (props) => {
         gridArea: `${row} / ${col} / ` + (horizontal ? `span 1 / span ${size}` :
             `span ${size} / span 1`)
     };
+
+    if (props.noClick) { styles.pointerEvents = 'none'; }
     
     return (
         <div className='Ship' onClick={clickHandler} style={styles}>
@@ -32,6 +34,8 @@ const Ship = (props) => {
 }
 
 Ship.propTypes = {
+    noClick: PropTypes.bool,
+
     ship: PropTypes.shape({
         id: PropTypes.string.isRequired,
         horizontal: PropTypes.bool.isRequired,
