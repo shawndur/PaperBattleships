@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: containers/Enemy.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: containers/Enemy.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, {Component} from 'react';
+import Board from '../components/Board';
+import ShipTray from '../components/ShipTray';
+import {isCollision, isHit} from '../helpers/ships';
+import Shot from '../components/Shot';
+import Ship from '../components/Ship';
+
+/**
+ * Enemy container component
+ */
+class Enemy extends Component {
+    constructor(props) {
+        super(props);
+        
+        this.handleBoardClick = this.handleBoardClick.bind(this);
+
+        this.state = {
+            shots: [],
+            ships: []
+        }
+    }
+
+    /**
+     * Callback function that handles a click on the board
+     * @callback Enemy~handleBoardClick
+     * @param {number} row - row that was clicked
+     * @param {number} col - column that was clicked
+     */
+    handleBoardClick(row, col) {
+        //create a shot object
+        const shot = {
+            row: row,
+            col: col,
+            hit: false
+        }
+
+        //use functional setstate since we need prevstate to calculate nextstate
+        this.setState((prevState, props) => {
+            const {shots, ships} = prevState;
+            const {shipInfo} = props.gameConfig;
+
+            //if shot does not already exist
+            if (!prevState.shots.some((shot)=> shot.row === row &amp;&amp; shot.col === col)){
+                
+                //find a hit ship if it exists
+                const hitShip = ships.find((ship)=> isHit(ship, shot, shipInfo));
+                
+                //if there is a hit ship change shot to a hit and lower ship health
+                if(hitShip) {
+                    shot.hit = true;
+                    hitShip.sunk = --hitShip.health &lt;= 0;
+                }
+
+                shots.push(shot);
+            }
+
+            return {
+                shots: shots,
+                ships: ships
+            }
+        });
+    }
+    
+    /**
+     * Called when component is mounted
+     *  - Generates enemy ships
+     */
+    componentWillMount() {
+        const {shipInfo, boardSize} = this.props.gameConfig;
+        const ships = [];
+
+        //for every available ship
+        for (let shipId in shipInfo) {
+            //create a ship
+            const ship = {
+                id: shipId, 
+                sunk: false,
+                horizontal: Math.round(Math.random()) === 0, //randomly decide orientation
+                health: shipInfo[shipId].size
+            }
+
+            //calculate highest possible row and column
+            const maxRow = ship.horizontal ? boardSize.rows : 
+                boardSize.rows - shipInfo[shipId].size + 1;
+            const maxCol = ship.horizontal ? boardSize.cols - shipInfo[shipId].size + 1 :
+                boardSize.cols;
+
+            //until there is no collision generate a random row and column for the ship
+            // that is less than the maximum row and column
+            do {
+                ship.row = Math.floor(Math.random() * maxRow + 1);
+                ship.col = Math.floor(Math.random() * maxCol + 1);
+            } while (ships.some((otherShip)=>isCollision(ship, otherShip, shipInfo)));
+
+            ships.push(ship);
+        }
+
+        this.setState({
+            ships: ships
+        });
+
+        //notify game that all ships are placed
+        this.props.onReady(false);
+    }
+
+    render() {
+        //generate shot elements
+        const shots = this.state.shots.map((shot)=>
+            &lt;Shot key={shot.row+','+shot.col} shot={shot} />
+        );
+
+        //generate ship elements for sunk ships
+        const sunkShips = this.state.ships.reduce((res,ship)=> {
+            if (ship.sunk) {
+                res.push(&lt;Ship key={ship.id} ship={ship} gameConfig={this.props.gameConfig} />);
+            }
+            return res;
+        }, []);
+
+        return ( 
+            &lt;div className='Enemy'>
+                &lt;Board gameConfig={this.props.gameConfig} onClick={this.handleBoardClick} >
+                    {shots}
+                    {sunkShips}
+                &lt;/Board>
+                &lt;ShipTray gameConfig={this.props.gameConfig} />
+            &lt;/div>
+        );
+    }
+}
+
+export default Enemy;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="App.html">App</a></li><li><a href="Coord.html">Coord</a></li><li><a href="Enemy.html">Enemy</a></li><li><a href="Game.html">Game</a></li><li><a href="Player.html">Player</a></li><li><a href="ShipCoord.html">ShipCoord</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Board">Board</a></li><li><a href="global.html#collides">collides</a></li><li><a href="global.html#gameConfig">gameConfig</a></li><li><a href="global.html#GameOver">GameOver</a></li><li><a href="global.html#isCollision">isCollision</a></li><li><a href="global.html#isHit">isHit</a></li><li><a href="global.html#isOutOfBounds">isOutOfBounds</a></li><li><a href="global.html#MainMenu">MainMenu</a></li><li><a href="global.html#MessageBox">MessageBox</a></li><li><a href="global.html#Ship">Ship</a></li><li><a href="global.html#ShipTray">ShipTray</a></li><li><a href="global.html#Shot">Shot</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Dec 24 2017 14:40:53 GMT-0500 (EST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

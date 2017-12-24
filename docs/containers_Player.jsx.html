@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: containers/Player.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: containers/Player.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, {Component} from 'react';
+import Board from '../components/Board';
+import ShipTray from '../components/ShipTray';
+import {isCollision, isOutOfBounds} from '../helpers/ships';
+import Ship from '../components/Ship';
+
+/**
+ * Player container component
+ */
+class Player extends Component {
+    constructor(props) {
+        super(props);
+        
+        this.handleBoardClick = this.handleBoardClick.bind(this);
+        this.handleShipSelect = this.handleShipSelect.bind(this);
+
+        this.state = {
+            ships: [],
+            selectedShip: undefined
+        }
+    }
+
+    /**
+     * Callback function that handles a click on the board
+     * @callback Player~handleBoardClick
+     * @param {number} row - row being clicked
+     * @param {number} col - column being clicked
+     */
+    handleBoardClick(row, col) {
+        //use functional setstate since nextstate depends on prevstate
+        this.setState((prevState, props)=> {
+            const {ships, selectedShip} = prevState;
+            const gameConfig = props.gameConfig;
+
+            //if there is a selected ship
+            if (selectedShip) {
+                //clone selected ship and add row and col properties
+                const ship = Object.assign({row: row, col: col}, selectedShip);
+                
+                //calculate if ship placement is valid
+                const valid = !(                     //valid if not
+                    isOutOfBounds(ship, gameConfig) || //out of bounds or
+                    ships.some((otherShip)=>           //if there is some other ship
+                        ship.id === otherShip.id ||      // that has the same id or
+                        isCollision(ship, otherShip, gameConfig.shipInfo) //collides with the ship
+                    )
+                );
+
+                //if the ship placement is valid
+                if (valid) {
+                    //save the ship
+                    ships.push(ship);
+
+                    //if all ships are placed notify game that player is ready
+                    if (ships.length === Object.keys(gameConfig.shipInfo).length) {
+                        this.props.onReady(true);
+                    }
+                }
+            }
+            
+            return { ships: ships }
+        });
+    }
+
+    /**
+     * Callback function that handles a ship being selected
+     * @callback Player~handleShipSelect
+     * @param {string} shipId - id of ship that is clicked
+     * @param {bool} horizontal - true if ship should be horizontal
+     */
+    handleShipSelect(shipId, horizontal) {
+        this.setState({
+            selectedShip: {
+                id: shipId,
+                sunk: false,
+                horizontal: horizontal
+            }
+        });
+    }
+
+    render() {
+        //Generate ship elements to render
+        const ships = this.state.ships.map((ship) => 
+            &lt;Ship key={ship.id} ship={ship} gameConfig={this.props.gameConfig} />
+        );
+
+        return ( 
+            &lt;div className='Player'>
+                &lt;ShipTray gameConfig={this.props.gameConfig} onShipSelect={this.handleShipSelect}/>
+                &lt;Board gameConfig={this.props.gameConfig} onClick={this.handleBoardClick}>
+                    {ships}
+                &lt;/Board>
+            &lt;/div>
+        );
+    }
+}
+
+export default Player;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="App.html">App</a></li><li><a href="Coord.html">Coord</a></li><li><a href="Enemy.html">Enemy</a></li><li><a href="Game.html">Game</a></li><li><a href="Player.html">Player</a></li><li><a href="ShipCoord.html">ShipCoord</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Board">Board</a></li><li><a href="global.html#collides">collides</a></li><li><a href="global.html#gameConfig">gameConfig</a></li><li><a href="global.html#GameOver">GameOver</a></li><li><a href="global.html#isCollision">isCollision</a></li><li><a href="global.html#isHit">isHit</a></li><li><a href="global.html#isOutOfBounds">isOutOfBounds</a></li><li><a href="global.html#MainMenu">MainMenu</a></li><li><a href="global.html#MessageBox">MessageBox</a></li><li><a href="global.html#Ship">Ship</a></li><li><a href="global.html#ShipTray">ShipTray</a></li><li><a href="global.html#Shot">Shot</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Dec 24 2017 14:40:53 GMT-0500 (EST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
