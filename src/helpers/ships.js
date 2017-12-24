@@ -41,7 +41,8 @@ export function isCollision(shipA, shipB, shipInfo) {
     return collides(aCoord, bCoord);
 }
 
-export function isOutOfBounds(ship, boardSize, shipInfo) {
+export function isOutOfBounds(ship, gameConfig) {
+    const {shipInfo, boardSize} = gameConfig;
     const coord = new ShipCoord(ship, shipInfo);
     return (
         coord.row.min <= 0 || 
