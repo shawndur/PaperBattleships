@@ -3,10 +3,6 @@ import PropTypes from 'prop-types';
 import '../css/Ship.css'
 
 /**
- * @todo make ship unclickable when on board
- */
-
-/**
  * Stateless functional component that renders a ship
  * @param {*} props 
  */
