@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-//import Img from '../res/ship.svg';
 import '../css/Ship.css'
 
 const Ship = (props) => {
     const {id, horizontal, /*sunk,*/ row, col} = props.ship;
     const {img, size} = props.gameConfig.shipInfo[id];
+    
     const clickHandler = props.onClick ? (e) => props.onClick(id,true) : undefined;
+    
     const styles = {
         gridArea: `${row} / ${col} / ` + (horizontal ? `span 1 / span ${size}` :
             `span ${size} / span 1`)

@@ -6,7 +6,7 @@ import MessageBox from '../components/MessageBox';
 import Img from '../res/ship.svg';
 
 const gameConfig = {
-    mode: 'single',
+    multiPlayer: false,
     boardSize: {
         rows: 10,
         cols: 10

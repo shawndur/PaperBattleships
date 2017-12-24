@@ -40,8 +40,8 @@ class Player extends Component {
 
         this.setState({
             ships: ships,
-            //selectedShip: undefined
         });
+        
         if (ships.length === Object.keys(shipInfo).length) {
             this.props.onReady(true);
         }
