@@ -24,7 +24,7 @@ const Board = (props) => {
                 <div 
                     className='square' key={i+','+j} id={i+','+j}
                     style={{ gridArea: `${i} / ${j} / span 1 / span 1` }}
-                ></div>
+                />
             );
         }
     }
