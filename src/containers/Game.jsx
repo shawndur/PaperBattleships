@@ -49,13 +49,16 @@ const gameConfig = {
 class Game extends Component {
     constructor(props) {
         super(props);
-
-        this.handleReady = this.handleReady.bind(this);
-        this.handleTurnEnd = this.handleTurnEnd.bind(this);
-        this.handleAllSunk = this.handleAllSunk.bind(this);
         
+        this.handlers = { 
+            ready: this.handleReady.bind(this),
+            turnEnd: this.handleTurnEnd.bind(this),
+            allSunk: this.handleAllSunk.bind(this)
+        }
+
         this.state = {
-            playerTurn: true,
+            playerTurn: false,
+            enemyTurn: false,
             placement: true,
             playerReady: false,
             enemyReady: false,
@@ -127,12 +130,16 @@ class Game extends Component {
         return ( 
             <div className='Game'>
                 <MessageBox />
-                <Enemy onReady={this.handleReady} onAllSunk={this.handleAllSunk}
-                       onTurnEnd={this.handleTurnEnd} canPlace={this.props.placement} 
-                       gameConfig={gameConfig} />
-                <Player onReady={this.handleReady} onAllSunk={this.handleAllSunk}
-                        onTurnEnd={this.handleTurnEnd} canPlace={this.props.placement}
-                        gameConfig={gameConfig} />
+                <Enemy 
+                    turn={!this.props.playerTurn}
+                    onEvent={this.handlers}
+                    gameConfig={gameConfig} 
+                />
+                <Player 
+                    turn={this.props.playerTurn}
+                    onEvent={this.handlers}
+                    gameConfig={gameConfig} 
+                />
             </div>
         );
     }
