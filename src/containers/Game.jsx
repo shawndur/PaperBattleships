@@ -57,13 +57,9 @@ class Game extends Component {
         }
 
         this.state = {
-            playerTurn: false,
-            enemyTurn: false,
-            placement: true,
+            playerTurn: true,
             playerReady: false,
             enemyReady: false,
-            playerShots: [],
-            enemyShots: []
         }
     }
 
