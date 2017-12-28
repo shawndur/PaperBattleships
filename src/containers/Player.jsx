@@ -17,7 +17,8 @@ class Player extends Component {
         this.state = {
             ships: [],
             selectedShip: undefined,
-            shots: []
+            shots: [],
+            shipsRemaining: 0
         };
     }
 
@@ -70,6 +71,7 @@ class Player extends Component {
         //use functional setstate since nextstate depends on prevstate
         this.setState((prevState, props)=> {
             const {ships, selectedShip} = prevState;
+            let {shipsRemaining} = prevState;
             const gameConfig = props.gameConfig;
 
             //if there is a selected ship
@@ -91,6 +93,8 @@ class Player extends Component {
                     //save the ship
                     ships.push(ship);
 
+                    ++shipsRemaining;
+
                     //if all ships are placed notify game that player is ready
                     if (ships.length === Object.keys(gameConfig.shipInfo).length) {
                         props.onEvent.ready(true);
@@ -98,7 +102,10 @@ class Player extends Component {
                 }
             }
             
-            return { ships: ships };
+            return { 
+                ships: ships, 
+                shipsRemaining: shipsRemaining
+            };
         });
     }
 
@@ -113,7 +120,8 @@ class Player extends Component {
             selectedShip: {
                 id: shipId,
                 sunk: false,
-                horizontal: horizontal
+                horizontal: horizontal,
+                health: this.props.gameConfig.shipInfo[shipId].size
             }
         });
     }
