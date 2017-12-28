@@ -95,7 +95,7 @@ class Game extends Component {
      * @param {bool} player - true if player false if enemy
      */
     handleTurnEnd(player) {
-        this.props.setState((prevState, props)=> {
+        this.setState((prevState, props)=> {
             const playerTurn = prevState.playerTurn;
             //invert playerTurn if player has the turn, else don't change state
             return playerTurn === player ? {playerTurn: !playerTurn} : {};
@@ -131,12 +131,12 @@ class Game extends Component {
             <div className='Game'>
                 <MessageBox />
                 <Enemy 
-                    turn={!this.props.playerTurn}
+                    playerTurn={this.state.playerTurn}
                     onEvent={this.handlers}
                     gameConfig={gameConfig} 
                 />
                 <Player 
-                    turn={this.props.playerTurn}
+                    playerTurn={this.state.playerTurn}
                     onEvent={this.handlers}
                     gameConfig={gameConfig} 
                 />
