@@ -53,12 +53,13 @@ class Enemy extends Component {
                     hitShip.sunk = --hitShip.health <= 0;
                     if (hitShip.sunk) { 
                         if (--shipsRemaining === 0) {
-                            props.allSunk(false);
+                            props.onEvent.allSunk(false);
                         } 
                     }
                 }
 
                 shots.push(shot);
+                props.onEvent.turnEnd(false);
             }
 
             return {
