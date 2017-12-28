@@ -17,7 +17,7 @@ class Player extends Component {
         this.state = {
             ships: [],
             selectedShip: undefined
-        }
+        };
     }
 
     /**
@@ -53,12 +53,12 @@ class Player extends Component {
 
                     //if all ships are placed notify game that player is ready
                     if (ships.length === Object.keys(gameConfig.shipInfo).length) {
-                        this.props.onReady(true);
+                        props.onEvent.ready(true);
                     }
                 }
             }
             
-            return { ships: ships }
+            return { ships: ships };
         });
     }
 
