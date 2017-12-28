@@ -41,26 +41,29 @@ class Enemy extends Component {
             let {shipsRemaining} = prevState;
             const {shipInfo} = props.gameConfig;
 
-            //if shot does not already exist
-            if (!prevState.shots.some((shot)=> shot.row === row && shot.col === col)){
-                
-                //find a hit ship if it exists
-                const hitShip = ships.find((ship)=> isHit(ship, shot, shipInfo));
-                
-                //if there is a hit ship change shot to a hit and lower ship health
-                if(hitShip) {
-                    shot.hit = true;
-                    hitShip.sunk = --hitShip.health <= 0;
-                    if (hitShip.sunk) { 
-                        if (--shipsRemaining === 0) {
-                            props.onEvent.allSunk(false);
-                        } 
+            //return no changes if not player turn
+            if (!props.playerTurn) { return {}; }
+
+            //if shot already exists then return no changes 
+            if (shots.some((shot)=> shot.row === row && shot.col === col)){
+                return {};
+            }
+
+            //find a hit ship if it exists
+            const hitShip = ships.find((ship)=> isHit(ship, shot, shipInfo));
+            
+            if(hitShip) {
+                shot.hit = true;
+                if (--hitShip.health === 0) {
+                    hitShip.sunk = true;
+                    if (--shipsRemaining === 0) {
+                        props.onEvent.allSunk(false);
                     }
                 }
-
-                shots.push(shot);
-                props.onEvent.turnEnd(false);
             }
+
+            shots.push(shot);
+            props.onEvent.turnEnd(false);
 
             return {
                 shots: shots,
