@@ -16,7 +16,8 @@ class Enemy extends Component {
 
         this.state = {
             shots: [],
-            ships: []
+            ships: [],
+            shipsRemaining: 0
         }
     }
 
@@ -37,6 +38,7 @@ class Enemy extends Component {
         //use functional setstate since we need prevstate to calculate nextstate
         this.setState((prevState, props) => {
             const {shots, ships} = prevState;
+            let {shipsRemaining} = prevState;
             const {shipInfo} = props.gameConfig;
 
             //if shot does not already exist
@@ -49,6 +51,11 @@ class Enemy extends Component {
                 if(hitShip) {
                     shot.hit = true;
                     hitShip.sunk = --hitShip.health <= 0;
+                    if (hitShip.sunk) { 
+                        if (--shipsRemaining === 0) {
+                            props.allSunk(false);
+                        } 
+                    }
                 }
 
                 shots.push(shot);
@@ -56,7 +63,8 @@ class Enemy extends Component {
 
             return {
                 shots: shots,
-                ships: ships
+                ships: ships,
+                shipsRemaining: shipsRemaining
             }
         });
     }
@@ -96,7 +104,8 @@ class Enemy extends Component {
         }
 
         this.setState({
-            ships: ships
+            ships: ships,
+            shipsRemaining: ships.length
         });
 
         //notify game that all ships are placed
