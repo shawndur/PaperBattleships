@@ -63,7 +63,7 @@ class Enemy extends Component {
             }
 
             shots.push(shot);
-            props.onEvent.turnEnd(false);
+            props.onEvent.turnEnd(true);
 
             return {
                 shots: shots,
