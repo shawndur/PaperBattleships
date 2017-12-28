@@ -111,20 +111,6 @@ class Game extends Component {
         //call onGameEnd passing string of winner
         this.props.onGameEnd(player ? 'Enemy' : 'Player');
     }
-
-    handleShot(player, shot) {
-        const {playerTurn} = this.state;
-
-        if (player && playerTurn) {
-            const {playerShots} = this.state;
-            playerShots.push(shot);
-            this.setState({playerShots});
-        } else if (!playerTurn) {
-            const {enemyShots} = this.state;
-            enemyShots.push(shot);
-            this.setState(enemyShots);
-        }
-    }
     
     render() {
         return ( 
