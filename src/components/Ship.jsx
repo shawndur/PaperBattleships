@@ -1,33 +1,42 @@
-import React from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import '../css/Ship.css';
 
 /**
- * Stateless functional component that renders a ship
- * @param {*} props 
+ * Ship component
  */
-const Ship = (props) => {
-    const {id, horizontal, /*sunk,*/ row, col} = props.ship;
-    const {img, size} = props.gameConfig.shipInfo[id];
-    
-    //wrapper for onClick that calls the onclick function and passes the id of the ship
-    // undefined if no onclick function
-    const clickHandler = props.onClick ? () => props.onClick(id,true) : undefined;
-    
-    const styles = {
-        gridArea: `${row} / ${col} / ` + (horizontal ? `span 1 / span ${size}` :
-            `span ${size} / span 1`)
-    };
+class Ship extends PureComponent {
+    constructor(props) {
+        super(props);
+        this.handleClick = this.handleClick.bind(this);
+    }
 
-    if (props.noClick) { styles.pointerEvents = 'none'; }
-    
-    return (
-        <div className='Ship' onClick={clickHandler} style={styles}>
-            <img className={horizontal ? 'horizontal' : 'vertical'} 
-                src={img} alt='a paper ship' />
-        </div>
-    );
-};
+    handleClick() {
+        if (this.props.onClick) {
+            this.props.onClick(this.props.ship.id, true);
+        }
+    }
+
+    render() {
+        const {id, horizontal, row, col} = this.props.ship;
+        const {img, size} = this.props.gameConfig.shipInfo[id];
+        const clickHandler = this.props.onClick ? this.handleClick : undefined;
+        
+        const styles = {
+            gridArea: `${row} / ${col} / ` + (horizontal ? `span 1 / span ${size}` :
+                `span ${size} / span 1`)
+        };
+
+        if (this.props.noClick) { styles.pointerEvents = 'none'; }
+        
+        return (
+            <div className='Ship' onClick={clickHandler} style={styles}>
+                <img className={horizontal ? 'horizontal' : 'vertical'} 
+                    src={img} alt='a paper ship' />
+            </div>
+        );
+    }
+}
 
 Ship.propTypes = {
     noClick: PropTypes.bool,
