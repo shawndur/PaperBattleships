@@ -20,10 +20,3 @@
     grid-gap: 1px;
     border: 1px solid black;
 }
-
-.square {
-    height: 100%;
-    width: 100%;
-    background: lightblue;
-    z-index: 0;
-}

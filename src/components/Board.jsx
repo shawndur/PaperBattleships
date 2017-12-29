@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Squares from './Squares';
 import '../css/Board.css';
 
 /**
@@ -16,19 +17,6 @@ const Board = (props) => {
         props.onClick(parseInt(coord[0], 10), parseInt(coord[1], 10));
     } : undefined;
     
-    //generate a div square for each coordinate of the board 
-    const squares = [];
-    for (let i=1; i<=rows; ++i) {
-        for (let j=1; j<=cols; ++j) {
-            squares.push(
-                <div 
-                    className='square' key={i+','+j} id={i+','+j}
-                    style={{ gridArea: `${i} / ${j} / span 1 / span 1` }}
-                />
-            );
-        }
-    }
-
     return (
         <div className='Board-container'>
             <div 
@@ -36,7 +24,7 @@ const Board = (props) => {
                 style={{gridTemplate: `repeat(${rows},1fr) / repeat(${cols},1fr)`}}
                 onClick={handleClick}
             >
-                {squares}
+                <Squares rows={rows} cols={cols}/>
                 {props.children}
             </div>
         </div>
