@@ -1,24 +1,25 @@
-import React from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import '../css/Shot.css';
 
 /**
- * Stateless functional component that renders a shot
- * @param {*} props 
+ * Shot component
  */
-const Shot = (props) => {
-    const styles = {
-        gridArea: `${props.shot.row} / ${props.shot.col} / span 1 / span 1`
-    };
-    const color = props.shot.hit ? 'red' : 'white';
-    return (
-        <div className='Shot' style={styles}>
-            <svg height='100' width='100'>
-                <circle cx='50%' cy='50%' r='25%' stroke='black' strokeWidth='5%' fill={color}/>
-            </svg>
-        </div>
-    );
-};
+class Shot extends PureComponent {
+    render() {
+        const styles = {
+            gridArea: `${this.props.shot.row} / ${this.props.shot.col} / span 1 / span 1`
+        };
+        const color = this.props.shot.hit ? 'red' : 'white';
+        return (
+            <div className='Shot' style={styles}>
+                <svg height='100' width='100'>
+                    <circle cx='50%' cy='50%' r='25%' stroke='black' strokeWidth='5%' fill={color}/>
+                </svg>
+            </div>
+        );
+    }
+}
 
 Shot.propTypes = {
     shot: PropTypes.shape({
