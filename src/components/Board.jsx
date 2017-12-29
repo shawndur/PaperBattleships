@@ -1,6 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types'
-import '../css/Board.css'
+import PropTypes from 'prop-types';
+import '../css/Board.css';
 
 /**
  * Stateless functional component that renders a game board
@@ -40,8 +40,8 @@ const Board = (props) => {
                 {props.children}
             </div>
         </div>
-    )
-}
+    );
+};
 
 Board.propTypes = {
     gameConfig: PropTypes.shape({
@@ -52,6 +52,6 @@ Board.propTypes = {
     }).isRequired,
     children: PropTypes.node,
     onClick: PropTypes.func
-}
+};
 
 export default Board;
