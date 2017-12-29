@@ -13,10 +13,10 @@ const MainMenu = (props) => {
                 <h1>Paper Battleships</h1>
             </header>
             <nav>
-                <button onClick={props.onSinglePlayerStart}>
+                <button onClick={()=> props.onGameStart(false)}>
                     SinglePlayer
                 </button>
-                <button onClick={props.onMultiPlayerStart} disabled="disabled">
+                <button onClick={()=> props.onGameStart(true)} disabled="disabled">
                     MultiPlayer
                 </button>
             </nav>
@@ -25,8 +25,7 @@ const MainMenu = (props) => {
 };
 
 MainMenu.propTypes = {
-    onSinglePlayerStart: PropTypes.func.isRequired,
-    onMultiPlayerStart: PropTypes.func.isRequired
+    onGameStart: PropTypes.func.isRequired,
 };
 
 export default MainMenu;

@@ -13,8 +13,7 @@ class App extends Component {
     constructor(props) {
         super(props);
 
-        this.handleSinglePlayerStart = this.handleSinglePlayerStart.bind(this);
-        this.handleMultiPlayerStart = this.handleMultiPlayerStart.bind(this);
+        this.handleGameStart = this.handleGameStart.bind(this);
         this.handleGameEnd = this.handleGameEnd.bind(this);
         this.handleNewGame = this.handleNewGame.bind(this);
 
@@ -23,17 +22,10 @@ class App extends Component {
         };
     }
 
-    handleSinglePlayerStart() {
+    handleGameStart(multiPlayer){
         this.setState({
             gameState: 'started',
-            multiPlayer: false
-        });
-    }
-
-    handleMultiPlayerStart() {
-        this.setState({
-            gameState: 'started',
-            multiPlayer: true
+            multiPlayer: multiPlayer
         });
     }
 
@@ -54,9 +46,7 @@ class App extends Component {
         let game;
         switch (this.state.gameState) {
         case 'new':
-            game = <MainMenu 
-                onSinglePlayerStart={this.handleSinglePlayerStart} 
-                onMultiPlayerStart={this.handleMultiPlayerStart} />;
+            game = <MainMenu onGameStart={this.handleGameStart} />;
             break;
         
         case 'started':
