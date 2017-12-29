@@ -19,11 +19,11 @@ const GameOver = (props) => {
             </nav>
         </div>
     );
-}
+};
 
 GameOver.propTypes = {
     winner: PropTypes.string.isRequired,
     onNewGame: PropTypes.func.isRequired
-}
+};
 
 export default GameOver;

@@ -41,7 +41,7 @@ const gameConfig = {
             img: Img
         }
     }
-}
+};
 
 /**
  * Container component representing a game
@@ -54,13 +54,13 @@ class Game extends Component {
             ready: this.handleReady.bind(this),
             turnEnd: this.handleTurnEnd.bind(this),
             allSunk: this.handleAllSunk.bind(this)
-        }
+        };
 
         this.state = {
             playerTurn: true,
             playerReady: false,
             enemyReady: false,
-        }
+        };
     }
 
     /**
@@ -79,7 +79,7 @@ class Game extends Component {
 
         //use functional setstate since nextstate relies on prevstate
         // set placement to false if both players are ready
-        this.setState((prevState, props)=> {
+        this.setState((prevState)=> {
             const {enemyReady, playerReady} = prevState;
             return playerReady && enemyReady ? {placement: false} : {};
         });
@@ -91,7 +91,7 @@ class Game extends Component {
      * @param {bool} player - true if player false if enemy
      */
     handleTurnEnd(player) {
-        this.setState((prevState, props)=> {
+        this.setState((prevState)=> {
             const playerTurn = prevState.playerTurn;
             //invert playerTurn if player has the turn, else don't change state
             return playerTurn === player ? {playerTurn: !playerTurn} : {};
@@ -129,6 +129,6 @@ class Game extends Component {
 
 Game.propTypes = {
     onGameEnd: PropTypes.func.isRequired
-}
+};
 
 export default Game;

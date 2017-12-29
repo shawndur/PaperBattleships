@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import '../css/Ship.css'
+import '../css/Ship.css';
 
 /**
  * Stateless functional component that renders a ship
@@ -12,7 +12,7 @@ const Ship = (props) => {
     
     //wrapper for onClick that calls the onclick function and passes the id of the ship
     // undefined if no onclick function
-    const clickHandler = props.onClick ? (e) => props.onClick(id,true) : undefined;
+    const clickHandler = props.onClick ? () => props.onClick(id,true) : undefined;
     
     const styles = {
         gridArea: `${row} / ${col} / ` + (horizontal ? `span 1 / span ${size}` :
@@ -26,8 +26,8 @@ const Ship = (props) => {
             <img className={horizontal ? 'horizontal' : 'vertical'} 
                 src={img} alt='a paper ship' />
         </div>
-    )
-}
+    );
+};
 
 Ship.propTypes = {
     noClick: PropTypes.bool,
@@ -48,7 +48,7 @@ Ship.propTypes = {
             if (prop === 'null' || typeof prop !== 'object') {
                 return new Error(
                     `Invalid prop ${propFullName} supplied to ${componentName}.`
-                    + ` Expected an object`
+                    + ' Expected an object'
                 );
             }
 
@@ -59,7 +59,7 @@ Ship.propTypes = {
                     size: 'number',
                     name: 'string',
                     img: 'string'
-                }
+                };
 
                 for (let key in shape){
                     //check that item in prop has expected property
@@ -73,6 +73,6 @@ Ship.propTypes = {
             }
         }
     }).isRequired
-}
+};
 
 export default Ship;

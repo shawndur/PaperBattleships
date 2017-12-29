@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import '../css/Shot.css'
+import '../css/Shot.css';
 
 /**
  * Stateless functional component that renders a shot
@@ -9,7 +9,7 @@ import '../css/Shot.css'
 const Shot = (props) => {
     const styles = {
         gridArea: `${props.shot.row} / ${props.shot.col} / span 1 / span 1`
-    }
+    };
     const color = props.shot.hit ? 'red' : 'white';
     return (
         <div className='Shot' style={styles}>
@@ -18,7 +18,7 @@ const Shot = (props) => {
             </svg>
         </div>
     );
-}
+};
 
 Shot.propTypes = {
     shot: PropTypes.shape({
@@ -26,6 +26,6 @@ Shot.propTypes = {
         col: PropTypes.number.isRequired,
         hit: PropTypes.bool.isRequired
     }).isRequired
-}
+};
 
-export default Shot
+export default Shot;

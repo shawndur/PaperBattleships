@@ -11,12 +11,12 @@ function ShipCoord(ship, shipInfo){
     this.row = {
         min: row,
         max: horizontal ? row : row + size - 1
-    }
+    };
 
     this.col = {
         min: col,
         max: horizontal ? col + size - 1 : col
-    }
+    };
 }
 
 /**
@@ -31,12 +31,12 @@ function Coord(rowMin, rowMax, colMin, colMax) {
     this.row = {
         min: rowMin,
         max: rowMax
-    }
+    };
     
     this.col = {
         min: colMin,
         max: colMax
-    }
+    };
 }
 
 /**

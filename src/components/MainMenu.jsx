@@ -22,11 +22,11 @@ const MainMenu = (props) => {
             </nav>
         </div>
     );
-}
+};
 
 MainMenu.propTypes = {
     onSinglePlayerStart: PropTypes.func.isRequired,
     onMultiPlayerStart: PropTypes.func.isRequired
-}
+};
 
 export default MainMenu;

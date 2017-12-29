@@ -18,7 +18,7 @@ class Enemy extends Component {
             shots: [],
             ships: [],
             shipsRemaining: 0
-        }
+        };
     }
 
     /**
@@ -33,7 +33,7 @@ class Enemy extends Component {
             row: row,
             col: col,
             hit: false
-        }
+        };
 
         //use functional setstate since we need prevstate to calculate nextstate
         this.setState((prevState, props) => {
@@ -69,7 +69,7 @@ class Enemy extends Component {
                 shots: shots,
                 ships: ships,
                 shipsRemaining: shipsRemaining
-            }
+            };
         });
     }
     
@@ -89,7 +89,7 @@ class Enemy extends Component {
                 sunk: false,
                 horizontal: Math.round(Math.random()) === 0, //randomly decide orientation
                 health: shipInfo[shipId].size
-            }
+            };
 
             //calculate highest possible row and column
             const maxRow = ship.horizontal ? boardSize.rows : 

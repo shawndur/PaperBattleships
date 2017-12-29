@@ -22,7 +22,7 @@ const ShipTray = (props) => {
         const size = shipInfo[shipId].size;
 
         ++rows;
-        if (size > cols) { cols = size };
+        if (size > cols) { cols = size; }
 
         ships.push(
             <Ship key={shipId} onClick={props.onShipSelect} gameConfig={props.gameConfig}
@@ -37,7 +37,7 @@ const ShipTray = (props) => {
             </div>
         </div>
     );
-}
+};
 
 ShipTray.propTypes = {
     gameConfig: PropTypes.shape({
@@ -48,7 +48,7 @@ ShipTray.propTypes = {
             if (prop === 'null' || typeof prop !== 'object') {
                 return new Error(
                     `Invalid prop ${propFullName} supplied to ${componentName}.`
-                    + ` Expected an object`
+                    + ' Expected an object'
                 );
             }
 
@@ -59,7 +59,7 @@ ShipTray.propTypes = {
                     size: 'number',
                     name: 'string',
                     img: 'string'
-                }
+                };
 
                 for (let key in shape){
                     //check that item in prop has expected property
@@ -74,6 +74,6 @@ ShipTray.propTypes = {
         }
     }).isRequired,
     onShipSelect: PropTypes.func
-}
+};
 
 export default ShipTray;
