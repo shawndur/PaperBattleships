@@ -23,31 +23,31 @@ class Enemy extends Component {
 
     /**
      * Callback function that handles a click on the board
+     *  - determines shots on enemy board
+     * 
      * @callback Enemy~handleBoardClick
      * @param {number} row - row that was clicked
      * @param {number} col - column that was clicked
      */
     handleBoardClick(row, col) {
-        //create a shot object
-        const shot = {
-            row: row,
-            col: col,
-            hit: false
-        };
-
-        //use functional setstate since we need prevstate to calculate nextstate
         this.setState((prevState, props) => {
-            const {shots, ships} = prevState;
-            let {shipsRemaining} = prevState;
-            const {shipInfo} = props.gameConfig;
-
             //return no changes if not player turn
             if (!props.playerTurn) { return {}; }
-
+            
             //if shot already exists then return no changes 
-            if (shots.some((shot)=> shot.row === row && shot.col === col)){
+            if (prevState.shots.some((shot)=> shot.row === row && shot.col === col)){
                 return {};
             }
+
+            const shots = prevState.shots;
+            const ships = prevState.ships;
+            let shipsRemaining = prevState;
+            const shipInfo = props.gameConfig.shipInfo;
+            const shot = {
+                row: row,
+                col: col,
+                hit: false
+            };
 
             //find a hit ship if it exists
             const hitShip = ships.find((ship)=> isHit(ship, shot, shipInfo));
