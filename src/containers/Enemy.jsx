@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import Board from '../components/Board';
 import ShipTray from '../components/ShipTray';
 import {isCollision, isHit} from '../helpers/ships';
-import Shot from '../components/Shot';
+import Shots from '../components/Shots';
 import Ships from '../components/Ships';
 
 /**
@@ -117,17 +117,12 @@ class Enemy extends Component {
     }
 
     render() {
-        //generate shot elements
-        const shots = this.state.shots.map((shot)=>
-            <Shot key={shot.row+','+shot.col} shot={shot} />
-        );
-
         return ( 
             <div className='Enemy'>
                 <Board gameConfig={this.props.gameConfig} onClick={this.handleBoardClick} >
-                    {shots}
+                    <Shots shots={this.state.shots} />
                     <Ships gameConfig={this.props.gameConfig} noClick={true} 
-                        ships={this.state.ships}/>
+                        ships={this.state.ships} />
                 </Board>
                 <ShipTray gameConfig={this.props.gameConfig} />
             </div>
