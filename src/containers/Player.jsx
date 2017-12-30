@@ -23,10 +23,12 @@ class Player extends Component {
         };
     }
 
+    /**
+     * Function that places a shot on the players board
+     */
     shootPlayer() {
         this.setState((prevState, props)=> {
-            const {ships, shots} = prevState;
-            let {shipsRemaining} = prevState;
+            const newState = { shots: prevState.shots.slice() };
             const {boardSize, shipInfo} = props.gameConfig;
             const shot = { hit: false };
 
@@ -34,28 +36,38 @@ class Player extends Component {
             do {
                 shot.row = Math.floor(Math.random() * boardSize.rows + 1);
                 shot.col = Math.floor(Math.random() * boardSize.cols + 1);
-            } while(shots.some((other)=> other.row === shot.row && other.col === shot.col));
+            } while(newState.shots.some((s)=> s.row === shot.row && s.col === shot.col));
 
-            //check if ship was hit
-            const hitShip = ships.find((ship)=> isHit(ship, shot, shipInfo));
+            //find a hit ship if it exists
+            let i;
+            let hitShip = prevState.ships.find((ship, index)=> {
+                i = index;
+                return isHit(ship, shot, shipInfo);
+            });
+
             if (hitShip){
                 shot.hit = true;
+
+                //copy ship array from prevstate to newstate
+                newState.ships = prevState.ships.slice();
+                //use copy of hit ship
+                newState.ships[i] = hitShip = Object.assign({}, hitShip);
+
                 if (--hitShip.health === 0) {
                     hitShip.sunk = true;
-                    if (--shipsRemaining === 0) {
+                    newState.shipsRemaining = prevState.shipsRemaining;
+                    if (--newState.shipsRemaining === 0) {
                         props.onEvent.allSunk(true);
                     }
                 }
             }
 
-            shots.push(shot);
+            //addShot
+            newState.shots.push(shot);
+            
             props.onEvent.turnEnd(false);
 
-            return {
-                shots: shots,
-                ships: ships,
-                shipsRemaining: shipsRemaining
-            };
+            return newState;
         });
     }
 
