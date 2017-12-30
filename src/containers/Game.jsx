@@ -3,45 +3,6 @@ import PropTypes from 'prop-types';
 import Enemy from  './Enemy';
 import Player from './Player';
 import MessageBox from '../components/MessageBox';
-import Img from '../res/ship.svg';
-
-/**
- * @todo unhardcode this
- */
-const gameConfig = {
-    multiPlayer: false,
-    boardSize: {
-        rows: 10,
-        cols: 10
-    },
-    shipInfo: { 
-        ac: {
-            name: 'Carrier',
-            size: 5, 
-            img: Img
-        },
-        bs: {
-            name: 'Battleship',
-            size: 4, 
-            img: Img
-        },
-        cs: {
-            name: 'Cruiser',
-            size: 3, 
-            img: Img
-        },
-        sb: {
-            name: 'Submarine',
-            size: 3, 
-            img: Img
-        },
-        ds: {
-            name: 'Destroyer',
-            size: 2, 
-            img: Img
-        }
-    }
-};
 
 /**
  * Container component representing a game
@@ -49,7 +10,7 @@ const gameConfig = {
 class Game extends Component {
     constructor(props) {
         super(props);
-        
+    
         this.handlers = { 
             ready: this.handleReady.bind(this),
             turnEnd: this.handleTurnEnd.bind(this),
@@ -115,12 +76,12 @@ class Game extends Component {
                 <Enemy 
                     playerTurn={this.state.playerTurn}
                     onEvent={this.handlers}
-                    gameConfig={gameConfig} 
+                    gameConfig={this.props.gameConfig} 
                 />
                 <Player 
                     playerTurn={this.state.playerTurn}
                     onEvent={this.handlers}
-                    gameConfig={gameConfig} 
+                    gameConfig={this.props.gameConfig} 
                 />
             </div>
         );

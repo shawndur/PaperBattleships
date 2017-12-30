@@ -5,6 +5,7 @@ import './css/App.css';
 import Game from './containers/Game';
 import MainMenu from './components/MainMenu';
 import GameOver from './components/GameOver';
+import GameConfig from '../config/GameConfig';
 
 /**
  * Top application component
@@ -23,9 +24,9 @@ class App extends Component {
     }
 
     handleGameStart(multiPlayer){
+        GameConfig.multiPlayer = multiPlayer;
         this.setState({
             gameState: 'started',
-            multiPlayer: multiPlayer
         });
     }
 
@@ -50,7 +51,7 @@ class App extends Component {
             break;
         
         case 'started':
-            game = <Game onGameEnd={this.handleGameEnd} />;
+            game = <Game onGameEnd={this.handleGameEnd} gameConfig={GameConfig} />;
             break;
         
         case 'over':
