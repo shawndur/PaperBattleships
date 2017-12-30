@@ -6,6 +6,9 @@ import Shots from '../components/Shots';
 import Ships from '../components/Ships';
 
 /**
+ * @todo make constructor function for shot and ship objects
+ */
+/**
  * Enemy container component
  */
 class Enemy extends Component {
@@ -31,45 +34,53 @@ class Enemy extends Component {
      */
     handleBoardClick(row, col) {
         this.setState((prevState, props) => {
+            const newState = {};
+
             //return no changes if not player turn
-            if (!props.playerTurn) { return {}; }
+            if (!props.playerTurn) { return newState; }
             
             //if shot already exists then return no changes 
             if (prevState.shots.some((shot)=> shot.row === row && shot.col === col)){
-                return {};
+                return newState;
             }
 
-            const shots = prevState.shots;
-            const ships = prevState.ships;
-            let shipsRemaining = prevState;
-            const shipInfo = props.gameConfig.shipInfo;
+            //create new shot
             const shot = {
                 row: row,
                 col: col,
                 hit: false
             };
+            
+            //copy shots from prevstate to newstate and add shot
+            newState.shots = prevState.shots.slice().push(shot);
 
             //find a hit ship if it exists
-            const hitShip = ships.find((ship)=> isHit(ship, shot, shipInfo));
+            let i;
+            let hitShip = prevState.ships.find((ship, index)=> {
+                i = index;
+                return isHit(ship, shot, props.gameConfig.shipInfo);
+            });
             
             if(hitShip) {
                 shot.hit = true;
+
+                //copy ship array from prevstate to newstate
+                newState.ships = prevState.ships.slice();
+                //use copy of hit ship
+                newState.ships[i] = hitShip = Object.assign({}, hitShip);
+                
                 if (--hitShip.health === 0) {
                     hitShip.sunk = true;
-                    if (--shipsRemaining === 0) {
+                    newState.shipsRemaining = prevState.shipsRemaining;
+                    if (--newState.shipsRemaining === 0) {
                         props.onEvent.allSunk(false);
                     }
                 }
             }
 
-            shots.push(shot);
             props.onEvent.turnEnd(true);
 
-            return {
-                shots: shots,
-                ships: ships,
-                shipsRemaining: shipsRemaining
-            };
+            return newState;
         });
     }
     
