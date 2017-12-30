@@ -21,6 +21,7 @@ class Game extends Component {
             playerTurn: true,
             playerReady: false,
             enemyReady: false,
+            placement: true
         };
     }
 
@@ -35,7 +36,7 @@ class Game extends Component {
             this.setState({playerReady: true});
         } else {
             //if enemy is ready set enemy ready state to true
-            this.setState({playerReady: true});
+            this.setState({enemyReady: true});
         }
 
         //use functional setstate since nextstate relies on prevstate
@@ -74,11 +75,13 @@ class Game extends Component {
             <div className='Game'>
                 <MessageBox />
                 <Enemy 
+                    placement={this.state.placement}
                     playerTurn={this.state.playerTurn}
                     onEvent={this.handlers}
                     gameConfig={this.props.gameConfig} 
                 />
                 <Player 
+                    placement={this.state.placement}
                     playerTurn={this.state.playerTurn}
                     onEvent={this.handlers}
                     gameConfig={this.props.gameConfig} 

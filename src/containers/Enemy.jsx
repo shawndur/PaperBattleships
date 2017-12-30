@@ -34,6 +34,9 @@ class Enemy extends PureComponent {
         this.setState((prevState, props) => {
             const newState = {};
 
+            //return no changes if in placement phase
+            if (props.placement) { return newState; }
+            
             //return no changes if not player turn
             if (!props.playerTurn) { return newState; }
             

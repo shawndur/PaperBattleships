@@ -88,6 +88,9 @@ class Player extends PureComponent {
         this.setState((prevState, props)=> {
             const newState = {};
 
+            //return no changes if not in placement mode
+            if (!props.placement) { return newState; }
+            
             //return no changes if no selected ship
             if (!prevState.selectedShip) { return newState; }
 
