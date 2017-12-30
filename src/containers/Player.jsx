@@ -85,44 +85,40 @@ class Player extends Component {
      * @param {number} col - column being clicked
      */
     handleBoardClick(row, col) {
-        //use functional setstate since nextstate depends on prevstate
         this.setState((prevState, props)=> {
-            const {ships, selectedShip} = prevState;
-            let {shipsRemaining} = prevState;
-            const gameConfig = props.gameConfig;
+            const newState = {};
 
-            //if there is a selected ship
-            if (selectedShip) {
-                //clone selected ship and add row and col properties
-                const ship = Object.assign({row: row, col: col}, selectedShip);
-                
-                //calculate if ship placement is valid
-                const valid = !(                     //valid if not
-                    isOutOfBounds(ship, gameConfig) || //out of bounds or
-                    ships.some((otherShip)=>           //if there is some other ship
-                        ship.id === otherShip.id ||      // that has the same id or
-                        isCollision(ship, otherShip, gameConfig.shipInfo) //collides with the ship
-                    )
-                );
+            //return no changes if no selected ship
+            if (!prevState.selectedShip) { return newState; }
 
-                //if the ship placement is valid
-                if (valid) {
-                    //save the ship
-                    ships.push(ship);
+            //clone selected ship and add row and col properties
+            const ship = Object.assign({row: row, col: col}, prevState.selectedShip);
+            
+            //calculate if ship placement is valid
+            const valid = !(                     //valid if not
+                isOutOfBounds(ship, props.gameConfig) || //out of bounds or
+                prevState.ships.some((otherShip)=>          //if there is some other ship
+                    ship.id === otherShip.id ||                 // that has the same id or
+                    isCollision(ship, otherShip, props.gameConfig.shipInfo) //collides with the ship
+                )
+            );
 
-                    ++shipsRemaining;
+            //if not valid return no changes
+            if (!valid) { return newState; }
 
-                    //if all ships are placed notify game that player is ready
-                    if (ships.length === Object.keys(gameConfig.shipInfo).length) {
-                        props.onEvent.ready(true);
-                    }
-                }
+            //copy ships to new state and save the ship
+            newState.ships = prevState.ships.slice();
+            newState.ships.push(ship);
+
+            //add ships remaining to new state
+            newState.shipsRemaining = prevState.shipsRemaining + 1;
+
+            //if all ships are placed notify game that player is ready
+            if (newState.ships.length === Object.keys(props.gameConfig.shipInfo).length) {
+                props.onEvent.ready(true);
             }
             
-            return { 
-                ships: ships, 
-                shipsRemaining: shipsRemaining
-            };
+            return newState; 
         });
     }
 
