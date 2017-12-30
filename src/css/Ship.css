@@ -1,0 +1,32 @@
+.Ship {
+    background-color: green;
+    border: 1px solid red;
+    overflow: hidden;
+    z-index: 10;
+}
+
+.Ship img {
+    height: 100%;
+    width: 100%;
+    display: block;
+}
+
+.horizontal {
+
+}
+
+.vertical {
+    transform: rotate(90deg);
+}
+
+.N {
+    transform: rotate(-90deg);
+}
+
+.S {
+    transform: rotate(90deg);
+}
+
+.W {
+    transform: rotateY(180deg);
+}

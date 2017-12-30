@@ -1,0 +1,15 @@
+.Shot * {
+    pointer-events: none;
+}
+
+.Shot {
+    z-index: 20;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.Shot svg {
+    height: 100%;
+    width: 100%;
+    display: block;
+}
