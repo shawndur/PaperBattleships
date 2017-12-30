@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 import Board from '../components/Board';
 import ShipTray from '../components/ShipTray';
 import {isCollision, isOutOfBounds, isHit} from '../helpers/ships';
-import Ship from '../components/Ship';
-import Shot from '../components/Shot';
+import Ships from '../components/Ships';
+import Shots from '../components/Shots';
 
 /**
  * Player container component
@@ -128,22 +128,13 @@ class Player extends Component {
     }
 
     render() {
-        //Generate ship elements to render
-        const ships = this.state.ships.map((ship) => 
-            <Ship key={ship.id} noClick={true} ship={ship} gameConfig={this.props.gameConfig} />
-        );
-
-        //Generate shot markers to render
-        const shots = this.state.shots.map((shot)=> 
-            <Shot key={shot.row+','+shot.col} shot={shot} />
-        );
-
         return ( 
             <div className='Player'>
                 <ShipTray gameConfig={this.props.gameConfig} onShipSelect={this.handleShipSelect}/>
                 <Board gameConfig={this.props.gameConfig} onClick={this.handleBoardClick}>
-                    {ships}
-                    {shots}
+                    <Ships gameConfig={this.props.gameConfig} ships={this.state.ships} 
+                        noClick={true}/>
+                    <Shots shots={this.state.shots} />
                 </Board>
             </div>
         );
