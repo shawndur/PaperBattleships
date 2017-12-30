@@ -23,42 +23,46 @@ class Player extends Component {
         };
     }
 
+    shootPlayer() {
+        this.setState((prevState, props)=> {
+            const {ships, shots} = prevState;
+            let {shipsRemaining} = prevState;
+            const {boardSize, shipInfo} = props.gameConfig;
+            const shot = { hit: false };
+
+            //randomly create shot that does not touch any other
+            do {
+                shot.row = Math.floor(Math.random() * boardSize.rows + 1);
+                shot.col = Math.floor(Math.random() * boardSize.cols + 1);
+            } while(shots.some((other)=> other.row === shot.row && other.col === shot.col));
+
+            //check if ship was hit
+            const hitShip = ships.find((ship)=> isHit(ship, shot, shipInfo));
+            if (hitShip){
+                shot.hit = true;
+                if (--hitShip.health === 0) {
+                    hitShip.sunk = true;
+                    if (--shipsRemaining === 0) {
+                        props.onEvent.allSunk(true);
+                    }
+                }
+            }
+
+            shots.push(shot);
+            props.onEvent.turnEnd(false);
+
+            return {
+                shots: shots,
+                ships: ships,
+                shipsRemaining: shipsRemaining
+            };
+        });
+    }
+
     componentWillReceiveProps(nextProps) {
         //check if not player turn and player turn has changed
         if (!nextProps.playerTurn && this.props.playerTurn !== nextProps.playerTurn) {
-            this.setState((prevState, props)=> {
-                const {ships, shots} = prevState;
-                let {shipsRemaining} = prevState;
-                const {boardSize, shipInfo} = props.gameConfig;
-                const shot = { hit: false };
-
-                //randomly create shot that does not touch any other
-                do {
-                    shot.row = Math.floor(Math.random() * boardSize.rows + 1);
-                    shot.col = Math.floor(Math.random() * boardSize.cols + 1);
-                } while(shots.some((other)=> other.row === shot.row && other.col === shot.col));
-
-                //check if ship was hit
-                const hitShip = ships.find((ship)=> isHit(ship, shot, shipInfo));
-                if (hitShip){
-                    shot.hit = true;
-                    if (--hitShip.health === 0) {
-                        hitShip.sunk = true;
-                        if (--shipsRemaining === 0) {
-                            props.onEvent.allSunk(true);
-                        }
-                    }
-                }
-
-                shots.push(shot);
-                props.onEvent.turnEnd(false);
-
-                return {
-                    shots: shots,
-                    ships: ships,
-                    shipsRemaining: shipsRemaining
-                };
-            });
+            this.shootPlayer(); 
         }
     }
 
