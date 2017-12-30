@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import Shot from './Shot';
 
@@ -8,7 +8,7 @@ import Shot from './Shot';
 /**
  * Component that renders shots from an array
  */
-class Shots extends Component {
+class Shots extends PureComponent {
     render(){
         const shots = this.props.shots.map((shot)=>
             <Shot key={shot.row+','+shot.col} shot={shot} />

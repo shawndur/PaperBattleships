@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import Ship from './Ship';
 /**
@@ -7,7 +7,7 @@ import Ship from './Ship';
 /**
  * Component that renders ships from an array of ships
  */
-class Ships extends Component {
+class Ships extends PureComponent {
     render() {
         const ships = this.props.ships.map((ship)=>
             <Ship 

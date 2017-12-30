@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import Board from '../components/Board';
 import ShipTray from '../components/ShipTray';
 import {isCollision, isHit} from '../helpers/ships';
@@ -8,7 +8,7 @@ import Ships from '../components/Ships';
 /**
  * Enemy container component
  */
-class Enemy extends Component {
+class Enemy extends PureComponent {
     constructor(props) {
         super(props);
         
