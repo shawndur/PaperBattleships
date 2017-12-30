@@ -74,10 +74,9 @@ class Enemy extends Component {
     }
     
     /**
-     * Called when component is mounted
-     *  - Generates enemy ships
+     * Randomly generate enemy ships
      */
-    componentWillMount() {
+    placeShips() {
         const {shipInfo, boardSize} = this.props.gameConfig;
         const ships = [];
 
@@ -114,6 +113,13 @@ class Enemy extends Component {
 
         //notify game that all ships are placed
         this.props.onEvent.ready(false);
+    }
+
+    /**
+     * Called when component is mounted
+     */
+    componentWillMount() {
+        this.placeShips();
     }
 
     render() {
