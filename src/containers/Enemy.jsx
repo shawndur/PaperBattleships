@@ -51,8 +51,8 @@ class Enemy extends Component {
                 hit: false
             };
             
-            //copy shots from prevstate to newstate and add shot
-            newState.shots = prevState.shots.slice().push(shot);
+            //copy shots from prevstate to newstate
+            newState.shots = prevState.shots.slice();
 
             //find a hit ship if it exists
             let i;
@@ -77,6 +77,9 @@ class Enemy extends Component {
                     }
                 }
             }
+            
+            //add shot
+            newState.shots.push(shot);
 
             props.onEvent.turnEnd(true);
 
