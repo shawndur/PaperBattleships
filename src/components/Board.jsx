@@ -14,6 +14,7 @@ class Board extends PureComponent {
 
     handleClick(e) {
         if (this.props.onClick) {
+            if (e.target.id === '') { return; }
             const coord = e.target.id.split(',');
             this.props.onClick(parseInt(coord[0], 10), parseInt(coord[1], 10));
         }
