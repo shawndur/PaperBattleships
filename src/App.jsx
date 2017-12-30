@@ -5,7 +5,7 @@ import './css/App.css';
 import Game from './containers/Game';
 import MainMenu from './components/MainMenu';
 import GameOver from './components/GameOver';
-import GameConfig from '../config/GameConfig';
+import GameConfig from './config/GameConfig';
 
 /**
  * Top application component
