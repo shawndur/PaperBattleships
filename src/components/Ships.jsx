@@ -9,17 +9,12 @@ import Ship from './Ship';
  */
 class Ships extends Component {
     render() {
-        const ships = this.props.ships.reduce((res,ship)=> {
-            if (ship.sunk) {
-                res.push(
-                    <Ship 
-                        key={ship.id} noClick={this.props.noClick} ship={ship} 
-                        gameConfig={this.props.gameConfig} 
-                    />
-                );
-            }
-            return res;
-        }, []);
+        const ships = this.props.ships.map((ship)=>
+            <Ship 
+                key={ship.id} noClick={this.props.noClick} ship={ship} 
+                gameConfig={this.props.gameConfig} 
+            />
+        );
 
         return ships;
     }
