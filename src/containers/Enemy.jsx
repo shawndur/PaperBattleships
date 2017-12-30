@@ -6,9 +6,6 @@ import Shots from '../components/Shots';
 import Ships from '../components/Ships';
 
 /**
- * @todo make constructor function for shot and ship objects
- */
-/**
  * Enemy container component
  */
 class Enemy extends Component {
@@ -20,6 +17,7 @@ class Enemy extends Component {
         this.state = {
             shots: [],
             ships: [],
+            sunkShips: [],
             shipsRemaining: 0
         };
     }
@@ -71,7 +69,13 @@ class Enemy extends Component {
                 
                 if (--hitShip.health === 0) {
                     hitShip.sunk = true;
+
+                    //copy sunkships and add hitship
+                    newState.sunkShips = prevState.sunkShips.slice();
+                    newState.sunkShips.push(hitShip);
+                    
                     newState.shipsRemaining = prevState.shipsRemaining;
+
                     if (--newState.shipsRemaining === 0) {
                         props.onEvent.allSunk(false);
                     }
@@ -142,7 +146,7 @@ class Enemy extends Component {
                 <Board gameConfig={this.props.gameConfig} onClick={this.handleBoardClick} >
                     <Shots shots={this.state.shots} />
                     <Ships gameConfig={this.props.gameConfig} noClick={true} 
-                        ships={this.state.ships} />
+                        ships={this.state.sunkShips} />
                 </Board>
                 <ShipTray gameConfig={this.props.gameConfig} />
             </div>
