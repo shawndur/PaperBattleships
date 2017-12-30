@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: components/GameOver.jsx</title>
+    <title>JSDoc: Source: components/Shots.jsx</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: components/GameOver.jsx</h1>
+    <h1 class="page-title">Source: components/Shots.jsx</h1>
 
     
 
@@ -26,35 +26,33 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import React from 'react';
+            <pre class="prettyprint source linenums"><code>import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
+import Shot from './Shot';
 
 /**
- * Stateless functional component that reders a gameover screen
- * @param {*} props 
+ * Component that renders shots from an array
  */
-const GameOver = (props) => {
-    return (
-        &lt;div>
-            &lt;header>
-                &lt;h1>Game Over&lt;/h1>
-                &lt;h3>{props.winner} Won!!&lt;/h3>
-            &lt;/header>
-            &lt;nav>
-                &lt;button onClick={props.onNewGame}>
-                    NewGame
-                &lt;/button>
-            &lt;/nav>
-        &lt;/div>
-    );
+class Shots extends PureComponent {
+    render(){
+        const shots = this.props.shots.map((shot)=>
+            &lt;Shot key={shot.row+','+shot.col} shot={shot} />
+        );
+
+        return shots;
+    }
+}
+
+Shots.propTypes = {
+    shots: PropTypes.arrayOf(
+        PropTypes.shape({
+            row: PropTypes.number.isRequired,
+            col: PropTypes.number.isRequired
+        })
+    ).isRequired
 };
 
-GameOver.propTypes = {
-    winner: PropTypes.string.isRequired,
-    onNewGame: PropTypes.func.isRequired
-};
-
-export default GameOver;</code></pre>
+export default Shots;</code></pre>
         </article>
     </section>
 

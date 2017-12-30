@@ -92,7 +92,8 @@ class Game extends Component {
 }
 
 Game.propTypes = {
-    onGameEnd: PropTypes.func.isRequired
+    onGameEnd: PropTypes.func.isRequired,
+    gameConfig: PropTypes.object.isRequired
 };
 
 export default Game;

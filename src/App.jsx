@@ -23,6 +23,11 @@ class App extends Component {
         };
     }
 
+    /**
+     * Callback function to start the game
+     * @callback App~handleGameStart
+     * @param {bool} multiPlayer - true if started in multiplayer mode
+     */
     handleGameStart(multiPlayer){
         GameConfig.multiPlayer = multiPlayer;
         this.setState({
@@ -30,6 +35,11 @@ class App extends Component {
         });
     }
 
+    /**
+     * Callback function to end the game
+     * @callback App~handleGameEnd
+     * @param {string} winner - Name of the winner
+     */
     handleGameEnd(winner) {
         this.setState({
             gameState: 'over',
@@ -37,6 +47,10 @@ class App extends Component {
         });
     }
 
+    /**
+     * Callback function to create a new game
+     * @callback App~handleNewGame
+     */
     handleNewGame() {
         this.setState({
             gameState: 'new'

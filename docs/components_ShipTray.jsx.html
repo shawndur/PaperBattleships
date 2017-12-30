@@ -26,7 +26,7 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import React from 'react';
+            <pre class="prettyprint source linenums"><code>import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import Ship from './Ship';
 import '../css/ShipTray.css';
@@ -36,35 +36,51 @@ import '../css/ShipTray.css';
  */
 
 /**
- * Stateless functional component that renders a shiptray view 
- * @param {*} props 
+ * ShipTray Component
  */
-const ShipTray = (props) => {
-    const shipInfo = props.gameConfig.shipInfo;
-    const ships = [];
-    let rows = 0;
-    let cols =  0; 
+class ShipTray extends PureComponent {
 
-    //create a ship element for each ship in shipinfo
-    for (let shipId in shipInfo) {
-        const size = shipInfo[shipId].size;
+    componentWillMount() {
+        const shipInfo = this.props.gameConfig.shipInfo;
+        const ships = [];
+        let rows = 0;
+        let cols =  0; 
 
-        ++rows;
-        if (size > cols) { cols = size };
+        //create a ship element for each ship in shipinfo
+        for (let shipId in shipInfo) {
+            const size = shipInfo[shipId].size;
 
-        ships.push(
-            &lt;Ship key={shipId} onClick={props.onShipSelect} gameConfig={props.gameConfig}
-                ship={{id: shipId, row: rows, col: 1, horizontal: true}} />
-        );
+            ++rows;
+            if (size > cols) { cols = size; }
+
+            ships.push(
+                {id: shipId, row: rows, col: 1, horizontal: true}
+            );
+        }
+
+        this.setState({
+            ships: ships,
+            rows: rows,
+            cols: cols
+        });
     }
 
-    return(
-        &lt;div className='ShipTray-container'>
-            &lt;div className='ShipTray' style={{gridTemplate: `repeat(${rows},1fr) / repeat(${cols},1fr)`}}>
-                {ships}
+    render() {
+        const {rows, cols} = this.state;
+        const {gameConfig, onShipSelect} = this.props;
+
+        const ships = this.state.ships.map((ship)=> 
+            &lt;Ship key={ship.id} onClick={onShipSelect} gameConfig={gameConfig} ship={ship} />
+        );        
+
+        return(
+            &lt;div className='ShipTray-container'>
+                &lt;div className='ShipTray' style={{gridTemplate: `repeat(${rows},1fr) / repeat(${cols},1fr)`}}>
+                    {ships}
+                &lt;/div>
             &lt;/div>
-        &lt;/div>
-    );
+        );
+    }
 }
 
 ShipTray.propTypes = {
@@ -76,7 +92,7 @@ ShipTray.propTypes = {
             if (prop === 'null' || typeof prop !== 'object') {
                 return new Error(
                     `Invalid prop ${propFullName} supplied to ${componentName}.`
-                    + ` Expected an object`
+                    + ' Expected an object'
                 );
             }
 
@@ -87,7 +103,7 @@ ShipTray.propTypes = {
                     size: 'number',
                     name: 'string',
                     img: 'string'
-                }
+                };
 
                 for (let key in shape){
                     //check that item in prop has expected property
@@ -102,7 +118,7 @@ ShipTray.propTypes = {
         }
     }).isRequired,
     onShipSelect: PropTypes.func
-}
+};
 
 export default ShipTray;</code></pre>
         </article>
@@ -114,13 +130,13 @@ export default ShipTray;</code></pre>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="App.html">App</a></li><li><a href="Coord.html">Coord</a></li><li><a href="Enemy.html">Enemy</a></li><li><a href="Game.html">Game</a></li><li><a href="Player.html">Player</a></li><li><a href="ShipCoord.html">ShipCoord</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Board">Board</a></li><li><a href="global.html#collides">collides</a></li><li><a href="global.html#gameConfig">gameConfig</a></li><li><a href="global.html#GameOver">GameOver</a></li><li><a href="global.html#isCollision">isCollision</a></li><li><a href="global.html#isHit">isHit</a></li><li><a href="global.html#isOutOfBounds">isOutOfBounds</a></li><li><a href="global.html#MainMenu">MainMenu</a></li><li><a href="global.html#MessageBox">MessageBox</a></li><li><a href="global.html#Ship">Ship</a></li><li><a href="global.html#ShipTray">ShipTray</a></li><li><a href="global.html#Shot">Shot</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="App.html">App</a></li><li><a href="Board.html">Board</a></li><li><a href="Coord.html">Coord</a></li><li><a href="Enemy.html">Enemy</a></li><li><a href="Game.html">Game</a></li><li><a href="Player.html">Player</a></li><li><a href="Ship.html">Ship</a></li><li><a href="ShipCoord.html">ShipCoord</a></li><li><a href="Ships.html">Ships</a></li><li><a href="ShipTray.html">ShipTray</a></li><li><a href="Shot.html">Shot</a></li><li><a href="Shots.html">Shots</a></li></ul><h3>Global</h3><ul><li><a href="global.html#collides">collides</a></li><li><a href="global.html#GameConfig">GameConfig</a></li><li><a href="global.html#GameOver">GameOver</a></li><li><a href="global.html#isCollision">isCollision</a></li><li><a href="global.html#isHit">isHit</a></li><li><a href="global.html#isOutOfBounds">isOutOfBounds</a></li><li><a href="global.html#MainMenu">MainMenu</a></li><li><a href="global.html#MessageBox">MessageBox</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Dec 24 2017 14:40:53 GMT-0500 (EST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Dec 30 2017 16:25:57 GMT-0500 (EST)
 </footer>
 
 <script> prettyPrint(); </script>

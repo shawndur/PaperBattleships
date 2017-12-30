@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: components/GameOver.jsx</title>
+    <title>JSDoc: Source: components/Ships.jsx</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: components/GameOver.jsx</h1>
+    <h1 class="page-title">Source: components/Ships.jsx</h1>
 
     
 
@@ -26,35 +26,33 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import React from 'react';
+            <pre class="prettyprint source linenums"><code>import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
+import Ship from './Ship';
 
 /**
- * Stateless functional component that reders a gameover screen
- * @param {*} props 
+ * Component that renders ships from an array of ships
  */
-const GameOver = (props) => {
-    return (
-        &lt;div>
-            &lt;header>
-                &lt;h1>Game Over&lt;/h1>
-                &lt;h3>{props.winner} Won!!&lt;/h3>
-            &lt;/header>
-            &lt;nav>
-                &lt;button onClick={props.onNewGame}>
-                    NewGame
-                &lt;/button>
-            &lt;/nav>
-        &lt;/div>
-    );
+class Ships extends PureComponent {
+    render() {
+        const ships = this.props.ships.map((ship)=>
+            &lt;Ship 
+                key={ship.id} noClick={this.props.noClick} ship={ship} 
+                gameConfig={this.props.gameConfig} 
+            />
+        );
+
+        return ships;
+    }
+}
+
+Ships.propTypes = {
+    ships: PropTypes.arrayOf(PropTypes.object).isRequired,
+    gameConfig: PropTypes.object.isRequired,
+    noClick: PropTypes.bool
 };
 
-GameOver.propTypes = {
-    winner: PropTypes.string.isRequired,
-    onNewGame: PropTypes.func.isRequired
-};
-
-export default GameOver;</code></pre>
+export default Ships;</code></pre>
         </article>
     </section>
 

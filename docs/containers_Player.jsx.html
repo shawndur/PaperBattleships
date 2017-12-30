@@ -26,16 +26,18 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import React, {Component} from 'react';
+            <pre class="prettyprint source linenums"><code>import React, {PureComponent} from 'react';
+import PropTypes from 'prop-types';
 import Board from '../components/Board';
 import ShipTray from '../components/ShipTray';
-import {isCollision, isOutOfBounds} from '../helpers/ships';
-import Ship from '../components/Ship';
+import {isCollision, isOutOfBounds, isHit} from '../helpers/ships';
+import Ships from '../components/Ships';
+import Shots from '../components/Shots';
 
 /**
  * Player container component
  */
-class Player extends Component {
+class Player extends PureComponent {
     constructor(props) {
         super(props);
         
@@ -44,7 +46,64 @@ class Player extends Component {
 
         this.state = {
             ships: [],
-            selectedShip: undefined
+            selectedShip: undefined,
+            shots: [],
+            shipsRemaining: 0
+        };
+    }
+
+    /**
+     * Function that places a shot on the players board
+     */
+    shootPlayer() {
+        this.setState((prevState, props)=> {
+            const newState = { shots: prevState.shots.slice() };
+            const {boardSize, shipInfo} = props.gameConfig;
+            const shot = { hit: false };
+
+            //randomly create shot that does not touch any other
+            do {
+                shot.row = Math.floor(Math.random() * boardSize.rows + 1);
+                shot.col = Math.floor(Math.random() * boardSize.cols + 1);
+            } while(newState.shots.some((s)=> s.row === shot.row &amp;&amp; s.col === shot.col));
+
+            //find a hit ship if it exists
+            let i;
+            let hitShip = prevState.ships.find((ship, index)=> {
+                i = index;
+                return isHit(ship, shot, shipInfo);
+            });
+
+            if (hitShip){
+                shot.hit = true;
+
+                //copy ship array from prevstate to newstate
+                newState.ships = prevState.ships.slice();
+                //use copy of hit ship
+                newState.ships[i] = hitShip = Object.assign({}, hitShip);
+
+                if (--hitShip.health === 0) {
+                    hitShip.sunk = true;
+                    newState.shipsRemaining = prevState.shipsRemaining;
+                    if (--newState.shipsRemaining === 0) {
+                        props.onEvent.allSunk(true);
+                    }
+                }
+            }
+
+            //addShot
+            newState.shots.push(shot);
+            
+            props.onEvent.turnEnd(false);
+
+            return newState;
+        });
+    }
+
+    componentWillReceiveProps(nextProps) {
+        //check if not player turn and player turn has changed
+        if (!nextProps.playerTurn &amp;&amp; this.props.playerTurn !== nextProps.playerTurn) {
+            this.shootPlayer(); 
         }
     }
 
@@ -55,38 +114,43 @@ class Player extends Component {
      * @param {number} col - column being clicked
      */
     handleBoardClick(row, col) {
-        //use functional setstate since nextstate depends on prevstate
         this.setState((prevState, props)=> {
-            const {ships, selectedShip} = prevState;
-            const gameConfig = props.gameConfig;
+            const newState = {};
 
-            //if there is a selected ship
-            if (selectedShip) {
-                //clone selected ship and add row and col properties
-                const ship = Object.assign({row: row, col: col}, selectedShip);
-                
-                //calculate if ship placement is valid
-                const valid = !(                     //valid if not
-                    isOutOfBounds(ship, gameConfig) || //out of bounds or
-                    ships.some((otherShip)=>           //if there is some other ship
-                        ship.id === otherShip.id ||      // that has the same id or
-                        isCollision(ship, otherShip, gameConfig.shipInfo) //collides with the ship
-                    )
-                );
+            //return no changes if not in placement mode
+            if (!props.placement) { return newState; }
+            
+            //return no changes if no selected ship
+            if (!prevState.selectedShip) { return newState; }
 
-                //if the ship placement is valid
-                if (valid) {
-                    //save the ship
-                    ships.push(ship);
+            //clone selected ship and add row and col properties
+            const ship = Object.assign({row: row, col: col}, prevState.selectedShip);
+            
+            //calculate if ship placement is valid
+            const valid = !(                     //valid if not
+                isOutOfBounds(ship, props.gameConfig) || //out of bounds or
+                prevState.ships.some((otherShip)=>          //if there is some other ship
+                    ship.id === otherShip.id ||                 // that has the same id or
+                    isCollision(ship, otherShip, props.gameConfig.shipInfo) //collides with the ship
+                )
+            );
 
-                    //if all ships are placed notify game that player is ready
-                    if (ships.length === Object.keys(gameConfig.shipInfo).length) {
-                        this.props.onReady(true);
-                    }
-                }
+            //if not valid return no changes
+            if (!valid) { return newState; }
+
+            //copy ships to new state and save the ship
+            newState.ships = prevState.ships.slice();
+            newState.ships.push(ship);
+
+            //add ships remaining to new state
+            newState.shipsRemaining = prevState.shipsRemaining + 1;
+
+            //if all ships are placed notify game that player is ready
+            if (newState.ships.length === Object.keys(props.gameConfig.shipInfo).length) {
+                props.onEvent.ready(true);
             }
             
-            return { ships: ships }
+            return newState; 
         });
     }
 
@@ -101,27 +165,39 @@ class Player extends Component {
             selectedShip: {
                 id: shipId,
                 sunk: false,
-                horizontal: horizontal
+                horizontal: horizontal,
+                health: this.props.gameConfig.shipInfo[shipId].size
             }
         });
     }
 
     render() {
-        //Generate ship elements to render
-        const ships = this.state.ships.map((ship) => 
-            &lt;Ship key={ship.id} ship={ship} gameConfig={this.props.gameConfig} />
-        );
-
         return ( 
             &lt;div className='Player'>
                 &lt;ShipTray gameConfig={this.props.gameConfig} onShipSelect={this.handleShipSelect}/>
                 &lt;Board gameConfig={this.props.gameConfig} onClick={this.handleBoardClick}>
-                    {ships}
+                    &lt;Ships gameConfig={this.props.gameConfig} ships={this.state.ships} 
+                        noClick={true}/>
+                    &lt;Shots shots={this.state.shots} />
                 &lt;/Board>
             &lt;/div>
         );
     }
 }
+
+Player.propTypes = {
+    placement: PropTypes.bool.isRequired,
+    playerTurn: PropTypes.bool.isRequired,
+    onEvent: PropTypes.shape({
+        ready: PropTypes.func.isRequired,
+        turnEnd: PropTypes.func.isRequired,
+        sunk: PropTypes.func.isRequired
+    }).isRequired,
+    gameConfig: PropTypes.shape({
+        boardSize: PropTypes.object.isRequired,
+        shipInfo: PropTypes.object.isRequired
+    }).isRequired
+};
 
 export default Player;</code></pre>
         </article>
@@ -133,13 +209,13 @@ export default Player;</code></pre>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="App.html">App</a></li><li><a href="Coord.html">Coord</a></li><li><a href="Enemy.html">Enemy</a></li><li><a href="Game.html">Game</a></li><li><a href="Player.html">Player</a></li><li><a href="ShipCoord.html">ShipCoord</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Board">Board</a></li><li><a href="global.html#collides">collides</a></li><li><a href="global.html#gameConfig">gameConfig</a></li><li><a href="global.html#GameOver">GameOver</a></li><li><a href="global.html#isCollision">isCollision</a></li><li><a href="global.html#isHit">isHit</a></li><li><a href="global.html#isOutOfBounds">isOutOfBounds</a></li><li><a href="global.html#MainMenu">MainMenu</a></li><li><a href="global.html#MessageBox">MessageBox</a></li><li><a href="global.html#Ship">Ship</a></li><li><a href="global.html#ShipTray">ShipTray</a></li><li><a href="global.html#Shot">Shot</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="App.html">App</a></li><li><a href="Board.html">Board</a></li><li><a href="Coord.html">Coord</a></li><li><a href="Enemy.html">Enemy</a></li><li><a href="Game.html">Game</a></li><li><a href="Player.html">Player</a></li><li><a href="Ship.html">Ship</a></li><li><a href="ShipCoord.html">ShipCoord</a></li><li><a href="Ships.html">Ships</a></li><li><a href="ShipTray.html">ShipTray</a></li><li><a href="Shot.html">Shot</a></li><li><a href="Shots.html">Shots</a></li></ul><h3>Global</h3><ul><li><a href="global.html#collides">collides</a></li><li><a href="global.html#GameConfig">GameConfig</a></li><li><a href="global.html#GameOver">GameOver</a></li><li><a href="global.html#isCollision">isCollision</a></li><li><a href="global.html#isHit">isHit</a></li><li><a href="global.html#isOutOfBounds">isOutOfBounds</a></li><li><a href="global.html#MainMenu">MainMenu</a></li><li><a href="global.html#MessageBox">MessageBox</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Dec 24 2017 14:40:53 GMT-0500 (EST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Dec 30 2017 16:25:57 GMT-0500 (EST)
 </footer>
 
 <script> prettyPrint(); </script>

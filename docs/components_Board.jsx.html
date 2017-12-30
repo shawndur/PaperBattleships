@@ -26,49 +26,45 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import React from 'react';
-import PropTypes from 'prop-types'
-import '../css/Board.css'
+            <pre class="prettyprint source linenums"><code>import React, {PureComponent} from 'react';
+import PropTypes from 'prop-types';
+import Squares from './Squares';
+import '../css/Board.css';
 
 /**
- * Stateless functional component that renders a game board
- * @param {*} props 
+ * Board component that renders a game board
  */
-const Board = (props) => {
-    const {rows, cols} = props.gameConfig.boardSize;
+class Board extends PureComponent {
+    constructor(props) {
+        super(props);
+        this.handleClick = this.handleClick.bind(this);
+    }
 
-    //wrapper for onClick, splits the key of a clicked square 
-    // and calls on click passing the row and col
-    const handleClick = props.onClick ? (e) => {
-        const coord = e.target.id.split(',');
-        props.onClick(parseInt(coord[0], 10), parseInt(coord[1], 10));
-    } : undefined;
-    
-    //generate a div square for each coordinate of the board 
-    const squares = [];
-    for (let i=1; i&lt;=rows; ++i) {
-        for (let j=1; j&lt;=cols; ++j) {
-            squares.push(
-                &lt;div 
-                    className='square' key={i+','+j} id={i+','+j}
-                    style={{ gridArea: `${i} / ${j} / span 1 / span 1` }}
-                >&lt;/div>
-            );
+    handleClick(e) {
+        if (this.props.onClick) {
+            if (e.target.id === '') { return; }
+            const coord = e.target.id.split(',');
+            this.props.onClick(parseInt(coord[0], 10), parseInt(coord[1], 10));
         }
     }
 
-    return (
-        &lt;div className='Board-container'>
-            &lt;div 
-                className='Board' 
-                style={{gridTemplate: `repeat(${rows},1fr) / repeat(${cols},1fr)`}}
-                onClick={handleClick}
-            >
-                {squares}
-                {props.children}
+    render() {
+        const {rows, cols} = this.props.gameConfig.boardSize;
+        const handleClick = this.props.onClick ? this.handleClick : undefined;
+        
+        return (
+            &lt;div className='Board-container'>
+                &lt;div 
+                    className='Board' 
+                    style={{gridTemplate: `repeat(${rows},1fr) / repeat(${cols},1fr)`}}
+                    onClick={handleClick}
+                >
+                    &lt;Squares rows={rows} cols={cols}/>
+                    {this.props.children}
+                &lt;/div>
             &lt;/div>
-        &lt;/div>
-    )
+        );
+    }
 }
 
 Board.propTypes = {
@@ -80,7 +76,7 @@ Board.propTypes = {
     }).isRequired,
     children: PropTypes.node,
     onClick: PropTypes.func
-}
+};
 
 export default Board;</code></pre>
         </article>
@@ -92,13 +88,13 @@ export default Board;</code></pre>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="App.html">App</a></li><li><a href="Coord.html">Coord</a></li><li><a href="Enemy.html">Enemy</a></li><li><a href="Game.html">Game</a></li><li><a href="Player.html">Player</a></li><li><a href="ShipCoord.html">ShipCoord</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Board">Board</a></li><li><a href="global.html#collides">collides</a></li><li><a href="global.html#gameConfig">gameConfig</a></li><li><a href="global.html#GameOver">GameOver</a></li><li><a href="global.html#isCollision">isCollision</a></li><li><a href="global.html#isHit">isHit</a></li><li><a href="global.html#isOutOfBounds">isOutOfBounds</a></li><li><a href="global.html#MainMenu">MainMenu</a></li><li><a href="global.html#MessageBox">MessageBox</a></li><li><a href="global.html#Ship">Ship</a></li><li><a href="global.html#ShipTray">ShipTray</a></li><li><a href="global.html#Shot">Shot</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="App.html">App</a></li><li><a href="Board.html">Board</a></li><li><a href="Coord.html">Coord</a></li><li><a href="Enemy.html">Enemy</a></li><li><a href="Game.html">Game</a></li><li><a href="Player.html">Player</a></li><li><a href="Ship.html">Ship</a></li><li><a href="ShipCoord.html">ShipCoord</a></li><li><a href="Ships.html">Ships</a></li><li><a href="ShipTray.html">ShipTray</a></li><li><a href="Shot.html">Shot</a></li><li><a href="Shots.html">Shots</a></li></ul><h3>Global</h3><ul><li><a href="global.html#collides">collides</a></li><li><a href="global.html#GameConfig">GameConfig</a></li><li><a href="global.html#GameOver">GameOver</a></li><li><a href="global.html#isCollision">isCollision</a></li><li><a href="global.html#isHit">isHit</a></li><li><a href="global.html#isOutOfBounds">isOutOfBounds</a></li><li><a href="global.html#MainMenu">MainMenu</a></li><li><a href="global.html#MessageBox">MessageBox</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Dec 24 2017 14:40:53 GMT-0500 (EST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Dec 30 2017 16:25:57 GMT-0500 (EST)
 </footer>
 
 <script> prettyPrint(); </script>

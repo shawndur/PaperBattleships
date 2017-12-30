@@ -33,82 +33,88 @@ import './css/App.css';
 import Game from './containers/Game';
 import MainMenu from './components/MainMenu';
 import GameOver from './components/GameOver';
+import GameConfig from './config/GameConfig';
 
 /**
  * Top application component
  */
 class App extends Component {
-  constructor(props) {
-    super(props);
+    constructor(props) {
+        super(props);
 
-    this.handleSinglePlayerStart = this.handleSinglePlayerStart.bind(this);
-    this.handleMultiPlayerStart = this.handleMultiPlayerStart.bind(this);
-    this.handleGameEnd = this.handleGameEnd.bind(this);
-    this.handleNewGame = this.handleNewGame.bind(this);
+        this.handleGameStart = this.handleGameStart.bind(this);
+        this.handleGameEnd = this.handleGameEnd.bind(this);
+        this.handleNewGame = this.handleNewGame.bind(this);
 
-    this.state = {
-      gameState: 'new'
-    }
-  }
-
-  handleSinglePlayerStart() {
-    this.setState({
-      gameState: 'started',
-      multiPlayer: false
-    });
-  }
-
-  handleMultiPlayerStart() {
-    this.setState({
-      gameState: 'started',
-      multiPlayer: true
-    });
-  }
-
-  handleGameEnd(winner) {
-    this.setState({
-      gameState: 'over',
-      winner: winner
-    });
-  }
-
-  handleNewGame() {
-    this.setState({
-      gameState: 'new'
-    });
-  }
-  
-  render() {
-    let game;
-    switch (this.state.gameState) {
-      case 'new':
-        game = &lt;MainMenu onSinglePlayerStart={this.handleSinglePlayerStart} 
-                         onMultiPlayerStart={this.handleMultiPlayerStart} />
-        break;
-      
-      case 'started':
-        game = &lt;Game onGameEnd={this.handleGameEnd} />
-        break;
-      
-      case 'over':
-      default:
-        game = &lt;GameOver onNewGame={this.handleNewGame} winner={this.state.winner} />
-        break;
+        this.state = {
+            gameState: 'new'
+        };
     }
 
-    return (
-      &lt;div className="App">
-        &lt;header className="App-header">
-          &lt;img src={logo} className="App-logo" alt="logo" />
-          &lt;h1 className="App-title">Welcome to React&lt;/h1>
-        &lt;/header>
-        &lt;p className="App-intro">
-          To get started, edit &lt;code>src/App.js&lt;/code> and save to reload.
-        &lt;/p>
-        {game}
-      &lt;/div>
-    );
-  }
+    /**
+     * Callback function to start the game
+     * @callback App~handleGameStart
+     * @param {bool} multiPlayer - true if started in multiplayer mode
+     */
+    handleGameStart(multiPlayer){
+        GameConfig.multiPlayer = multiPlayer;
+        this.setState({
+            gameState: 'started',
+        });
+    }
+
+    /**
+     * Callback function to end the game
+     * @callback App~handleGameEnd
+     * @param {string} winner - Name of the winner
+     */
+    handleGameEnd(winner) {
+        this.setState({
+            gameState: 'over',
+            winner: winner
+        });
+    }
+
+    /**
+     * Callback function to create a new game
+     * @callback App~handleNewGame
+     */
+    handleNewGame() {
+        this.setState({
+            gameState: 'new'
+        });
+    }
+    
+    render() {
+        let game;
+        switch (this.state.gameState) {
+        case 'new':
+            game = &lt;MainMenu onGameStart={this.handleGameStart} />;
+            break;
+        
+        case 'started':
+            game = &lt;Game onGameEnd={this.handleGameEnd} gameConfig={GameConfig} />;
+            break;
+        
+        case 'over':
+        default:
+            game = &lt;GameOver onNewGame={this.handleNewGame} winner={this.state.winner} />;
+            break;
+        }
+
+        return (
+            &lt;div className="App">
+                &lt;header className="App-header">
+                    &lt;img src={logo} className="App-logo" alt="logo" />
+                    &lt;h1 className="App-title">Welcome to React&lt;/h1>
+                &lt;/header>
+                &lt;p className="App-intro">
+                To get started, edit &lt;code>src/App.js&lt;/code> and save to reload.
+                &lt;/p>
+                {game}
+            &lt;/div>
+        );
+    }
 }
 
 export default App;
@@ -122,13 +128,13 @@ export default App;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="App.html">App</a></li><li><a href="Coord.html">Coord</a></li><li><a href="Enemy.html">Enemy</a></li><li><a href="Game.html">Game</a></li><li><a href="Player.html">Player</a></li><li><a href="ShipCoord.html">ShipCoord</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Board">Board</a></li><li><a href="global.html#collides">collides</a></li><li><a href="global.html#gameConfig">gameConfig</a></li><li><a href="global.html#GameOver">GameOver</a></li><li><a href="global.html#isCollision">isCollision</a></li><li><a href="global.html#isHit">isHit</a></li><li><a href="global.html#isOutOfBounds">isOutOfBounds</a></li><li><a href="global.html#MainMenu">MainMenu</a></li><li><a href="global.html#MessageBox">MessageBox</a></li><li><a href="global.html#Ship">Ship</a></li><li><a href="global.html#ShipTray">ShipTray</a></li><li><a href="global.html#Shot">Shot</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="App.html">App</a></li><li><a href="Board.html">Board</a></li><li><a href="Coord.html">Coord</a></li><li><a href="Enemy.html">Enemy</a></li><li><a href="Game.html">Game</a></li><li><a href="Player.html">Player</a></li><li><a href="Ship.html">Ship</a></li><li><a href="ShipCoord.html">ShipCoord</a></li><li><a href="Ships.html">Ships</a></li><li><a href="ShipTray.html">ShipTray</a></li><li><a href="Shot.html">Shot</a></li><li><a href="Shots.html">Shots</a></li></ul><h3>Global</h3><ul><li><a href="global.html#collides">collides</a></li><li><a href="global.html#GameConfig">GameConfig</a></li><li><a href="global.html#GameOver">GameOver</a></li><li><a href="global.html#isCollision">isCollision</a></li><li><a href="global.html#isHit">isHit</a></li><li><a href="global.html#isOutOfBounds">isOutOfBounds</a></li><li><a href="global.html#MainMenu">MainMenu</a></li><li><a href="global.html#MessageBox">MessageBox</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Dec 24 2017 14:40:53 GMT-0500 (EST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Dec 30 2017 16:25:57 GMT-0500 (EST)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -31,45 +31,6 @@ import PropTypes from 'prop-types';
 import Enemy from  './Enemy';
 import Player from './Player';
 import MessageBox from '../components/MessageBox';
-import Img from '../res/ship.svg';
-
-/**
- * @todo unhardcode this
- */
-const gameConfig = {
-    multiPlayer: false,
-    boardSize: {
-        rows: 10,
-        cols: 10
-    },
-    shipInfo: { 
-        ac: {
-            name: 'Carrier',
-            size: 5, 
-            img: Img
-        },
-        bs: {
-            name: 'Battleship',
-            size: 4, 
-            img: Img
-        },
-        cs: {
-            name: 'Cruiser',
-            size: 3, 
-            img: Img
-        },
-        sb: {
-            name: 'Submarine',
-            size: 3, 
-            img: Img
-        },
-        ds: {
-            name: 'Destroyer',
-            size: 2, 
-            img: Img
-        }
-    }
-}
 
 /**
  * Container component representing a game
@@ -77,17 +38,19 @@ const gameConfig = {
 class Game extends Component {
     constructor(props) {
         super(props);
+    
+        this.handlers = { 
+            ready: this.handleReady.bind(this),
+            turnEnd: this.handleTurnEnd.bind(this),
+            allSunk: this.handleAllSunk.bind(this)
+        };
 
-        this.handleReady = this.handleReady.bind(this);
-        
         this.state = {
             playerTurn: true,
-            phase: 'placement',
             playerReady: false,
             enemyReady: false,
-            playerShots: [],
-            enemyShots: []
-        }
+            placement: true
+        };
     }
 
     /**
@@ -101,47 +64,65 @@ class Game extends Component {
             this.setState({playerReady: true});
         } else {
             //if enemy is ready set enemy ready state to true
-            this.setState({playerReady: true});
+            this.setState({enemyReady: true});
         }
 
         //use functional setstate since nextstate relies on prevstate
-        // set phase to combat if both players are ready
-        this.setState((prevState, props)=> {
+        // set placement to false if both players are ready
+        this.setState((prevState)=> {
             const {enemyReady, playerReady} = prevState;
-            return {
-                phase: playerReady &amp;&amp; enemyReady ? 'combat' : prevState.phase
-            }
+            return playerReady &amp;&amp; enemyReady ? {placement: false} : {};
         });
     }
 
-    handleShot(player, shot) {
-        const {playerTurn} = this.state;
+    /**
+     * Handles a player or enemy ending their turn
+     * @callback Game~handleTurnEnd
+     * @param {bool} player - true if player false if enemy
+     */
+    handleTurnEnd(player) {
+        this.setState((prevState)=> {
+            const playerTurn = prevState.playerTurn;
+            //invert playerTurn if player has the turn, else don't change state
+            return playerTurn === player ? {playerTurn: !playerTurn} : {};
+        });
+    }
 
-        if (player &amp;&amp; playerTurn) {
-            const {playerShots} = this.state;
-            playerShots.push(shot);
-            this.setState({playerShots});
-        } else if (!playerTurn) {
-            const {enemyShots} = this.state;
-            enemyShots.push(shot);
-            this.setState(enemyShots);
-        }
+    /**
+     * Handles a player or enemy having all their ships sunk
+     * @callback Game~handleAllSunk
+     * @param {bool} player - true if player false if enemy
+     */
+    handleAllSunk(player) {
+        //call onGameEnd passing string of winner
+        this.props.onGameEnd(player ? 'Enemy' : 'Player');
     }
     
     render() {
         return ( 
             &lt;div className='Game'>
                 &lt;MessageBox />
-                &lt;Enemy onReady={this.handleReady} gameConfig={gameConfig} />
-                &lt;Player onReady={this.handleReady} gameConfig={gameConfig} />
+                &lt;Enemy 
+                    placement={this.state.placement}
+                    playerTurn={this.state.playerTurn}
+                    onEvent={this.handlers}
+                    gameConfig={this.props.gameConfig} 
+                />
+                &lt;Player 
+                    placement={this.state.placement}
+                    playerTurn={this.state.playerTurn}
+                    onEvent={this.handlers}
+                    gameConfig={this.props.gameConfig} 
+                />
             &lt;/div>
         );
     }
 }
 
 Game.propTypes = {
-    onGameEnd: PropTypes.func.isRequired
-}
+    onGameEnd: PropTypes.func.isRequired,
+    gameConfig: PropTypes.object.isRequired
+};
 
 export default Game;</code></pre>
         </article>
@@ -153,13 +134,13 @@ export default Game;</code></pre>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="App.html">App</a></li><li><a href="Coord.html">Coord</a></li><li><a href="Enemy.html">Enemy</a></li><li><a href="Game.html">Game</a></li><li><a href="Player.html">Player</a></li><li><a href="ShipCoord.html">ShipCoord</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Board">Board</a></li><li><a href="global.html#collides">collides</a></li><li><a href="global.html#gameConfig">gameConfig</a></li><li><a href="global.html#GameOver">GameOver</a></li><li><a href="global.html#isCollision">isCollision</a></li><li><a href="global.html#isHit">isHit</a></li><li><a href="global.html#isOutOfBounds">isOutOfBounds</a></li><li><a href="global.html#MainMenu">MainMenu</a></li><li><a href="global.html#MessageBox">MessageBox</a></li><li><a href="global.html#Ship">Ship</a></li><li><a href="global.html#ShipTray">ShipTray</a></li><li><a href="global.html#Shot">Shot</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="App.html">App</a></li><li><a href="Board.html">Board</a></li><li><a href="Coord.html">Coord</a></li><li><a href="Enemy.html">Enemy</a></li><li><a href="Game.html">Game</a></li><li><a href="Player.html">Player</a></li><li><a href="Ship.html">Ship</a></li><li><a href="ShipCoord.html">ShipCoord</a></li><li><a href="Ships.html">Ships</a></li><li><a href="ShipTray.html">ShipTray</a></li><li><a href="Shot.html">Shot</a></li><li><a href="Shots.html">Shots</a></li></ul><h3>Global</h3><ul><li><a href="global.html#collides">collides</a></li><li><a href="global.html#GameConfig">GameConfig</a></li><li><a href="global.html#GameOver">GameOver</a></li><li><a href="global.html#isCollision">isCollision</a></li><li><a href="global.html#isHit">isHit</a></li><li><a href="global.html#isOutOfBounds">isOutOfBounds</a></li><li><a href="global.html#MainMenu">MainMenu</a></li><li><a href="global.html#MessageBox">MessageBox</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Dec 24 2017 14:40:53 GMT-0500 (EST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Dec 30 2017 16:25:57 GMT-0500 (EST)
 </footer>
 
 <script> prettyPrint(); </script>

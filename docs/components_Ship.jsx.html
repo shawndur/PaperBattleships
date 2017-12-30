@@ -26,40 +26,49 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import React from 'react';
+            <pre class="prettyprint source linenums"><code>import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
-import '../css/Ship.css'
+import '../css/Ship.css';
 
 /**
- * @todo make ship unclickable when on board
+ * Ship component
  */
+class Ship extends PureComponent {
+    constructor(props) {
+        super(props);
+        this.handleClick = this.handleClick.bind(this);
+    }
 
-/**
- * Stateless functional component that renders a ship
- * @param {*} props 
- */
-const Ship = (props) => {
-    const {id, horizontal, /*sunk,*/ row, col} = props.ship;
-    const {img, size} = props.gameConfig.shipInfo[id];
-    
-    //wrapper for onClick that calls the onclick function and passes the id of the ship
-    // undefined if no onclick function
-    const clickHandler = props.onClick ? (e) => props.onClick(id,true) : undefined;
-    
-    const styles = {
-        gridArea: `${row} / ${col} / ` + (horizontal ? `span 1 / span ${size}` :
-            `span ${size} / span 1`)
-    };
-    
-    return (
-        &lt;div className='Ship' onClick={clickHandler} style={styles}>
-            &lt;img className={horizontal ? 'horizontal' : 'vertical'} 
-                src={img} alt='a paper ship' />
-        &lt;/div>
-    )
+    handleClick() {
+        if (this.props.onClick) {
+            this.props.onClick(this.props.ship.id, true);
+        }
+    }
+
+    render() {
+        const {id, horizontal, row, col} = this.props.ship;
+        const {img, size} = this.props.gameConfig.shipInfo[id];
+        const clickHandler = this.props.onClick ? this.handleClick : undefined;
+        
+        const styles = {
+            gridArea: `${row} / ${col} / ` + (horizontal ? `span 1 / span ${size}` :
+                `span ${size} / span 1`)
+        };
+
+        if (this.props.noClick) { styles.pointerEvents = 'none'; }
+        
+        return (
+            &lt;div className='Ship' onClick={clickHandler} style={styles}>
+                &lt;img className={horizontal ? 'horizontal' : 'vertical'} 
+                    src={img} alt='a paper ship' />
+            &lt;/div>
+        );
+    }
 }
 
 Ship.propTypes = {
+    noClick: PropTypes.bool,
+
     ship: PropTypes.shape({
         id: PropTypes.string.isRequired,
         horizontal: PropTypes.bool.isRequired,
@@ -76,7 +85,7 @@ Ship.propTypes = {
             if (prop === 'null' || typeof prop !== 'object') {
                 return new Error(
                     `Invalid prop ${propFullName} supplied to ${componentName}.`
-                    + ` Expected an object`
+                    + ' Expected an object'
                 );
             }
 
@@ -87,7 +96,7 @@ Ship.propTypes = {
                     size: 'number',
                     name: 'string',
                     img: 'string'
-                }
+                };
 
                 for (let key in shape){
                     //check that item in prop has expected property
@@ -101,7 +110,7 @@ Ship.propTypes = {
             }
         }
     }).isRequired
-}
+};
 
 export default Ship;</code></pre>
         </article>
@@ -113,13 +122,13 @@ export default Ship;</code></pre>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="App.html">App</a></li><li><a href="Coord.html">Coord</a></li><li><a href="Enemy.html">Enemy</a></li><li><a href="Game.html">Game</a></li><li><a href="Player.html">Player</a></li><li><a href="ShipCoord.html">ShipCoord</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Board">Board</a></li><li><a href="global.html#collides">collides</a></li><li><a href="global.html#gameConfig">gameConfig</a></li><li><a href="global.html#GameOver">GameOver</a></li><li><a href="global.html#isCollision">isCollision</a></li><li><a href="global.html#isHit">isHit</a></li><li><a href="global.html#isOutOfBounds">isOutOfBounds</a></li><li><a href="global.html#MainMenu">MainMenu</a></li><li><a href="global.html#MessageBox">MessageBox</a></li><li><a href="global.html#Ship">Ship</a></li><li><a href="global.html#ShipTray">ShipTray</a></li><li><a href="global.html#Shot">Shot</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="App.html">App</a></li><li><a href="Board.html">Board</a></li><li><a href="Coord.html">Coord</a></li><li><a href="Enemy.html">Enemy</a></li><li><a href="Game.html">Game</a></li><li><a href="Player.html">Player</a></li><li><a href="Ship.html">Ship</a></li><li><a href="ShipCoord.html">ShipCoord</a></li><li><a href="Ships.html">Ships</a></li><li><a href="ShipTray.html">ShipTray</a></li><li><a href="Shot.html">Shot</a></li><li><a href="Shots.html">Shots</a></li></ul><h3>Global</h3><ul><li><a href="global.html#collides">collides</a></li><li><a href="global.html#GameConfig">GameConfig</a></li><li><a href="global.html#GameOver">GameOver</a></li><li><a href="global.html#isCollision">isCollision</a></li><li><a href="global.html#isHit">isHit</a></li><li><a href="global.html#isOutOfBounds">isOutOfBounds</a></li><li><a href="global.html#MainMenu">MainMenu</a></li><li><a href="global.html#MessageBox">MessageBox</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Dec 24 2017 14:40:53 GMT-0500 (EST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Dec 30 2017 16:25:57 GMT-0500 (EST)
 </footer>
 
 <script> prettyPrint(); </script>

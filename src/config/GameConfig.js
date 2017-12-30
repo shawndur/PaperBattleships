@@ -1,5 +1,8 @@
 import Img from '../res/ship.svg';
 
+/**
+ * Object holding configurations for the game
+ */
 const GameConfig = {
     multiPlayer: false,
     boardSize: {

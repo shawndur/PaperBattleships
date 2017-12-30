@@ -1,4 +1,5 @@
 import React, {PureComponent} from 'react';
+import PropTypes from 'prop-types';
 import Board from '../components/Board';
 import ShipTray from '../components/ShipTray';
 import {isCollision, isHit} from '../helpers/ships';
@@ -156,5 +157,19 @@ class Enemy extends PureComponent {
         );
     }
 }
+
+Enemy.propTypes = {
+    placement: PropTypes.bool.isRequired,
+    playerTurn: PropTypes.bool.isRequired,
+    onEvent: PropTypes.shape({
+        ready: PropTypes.func.isRequired,
+        turnEnd: PropTypes.func.isRequired,
+        sunk: PropTypes.func.isRequired
+    }).isRequired,
+    gameConfig: PropTypes.shape({
+        boardSize: PropTypes.object.isRequired,
+        shipInfo: PropTypes.object.isRequired
+    }).isRequired
+};
 
 export default Enemy;
