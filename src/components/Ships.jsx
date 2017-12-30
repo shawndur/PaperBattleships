@@ -1,9 +1,7 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import Ship from './Ship';
-/**
- * @todo change to a pure component
- */
+
 /**
  * Component that renders ships from an array of ships
  */

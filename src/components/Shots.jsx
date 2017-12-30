@@ -3,9 +3,6 @@ import PropTypes from 'prop-types';
 import Shot from './Shot';
 
 /**
- * @todo change to pure component
- */
-/**
  * Component that renders shots from an array
  */
 class Shots extends PureComponent {
