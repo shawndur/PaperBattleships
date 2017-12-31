@@ -1,4 +1,8 @@
-import Img from '../res/ship.svg';
+import Galleon from '../res/Galleon.svg';
+import Frigate from '../res/Frigate.svg';
+import Corvette from '../res/Corvette.svg';
+import Schooner from '../res/Schooner.svg';
+import Brig from '../res/Brig.svg';
 
 /**
  * Object holding configurations for the game
@@ -11,29 +15,29 @@ const GameConfig = {
     },
     shipInfo: { 
         ac: {
-            name: 'Carrier',
+            name: 'Galleon',
             size: 5, 
-            img: Img
+            img: Galleon
         },
         bs: {
-            name: 'Battleship',
+            name: 'Frigate',
             size: 4, 
-            img: Img
+            img: Frigate
         },
         cs: {
-            name: 'Cruiser',
+            name: 'Corvette',
             size: 3, 
-            img: Img
+            img: Corvette
         },
         sb: {
-            name: 'Submarine',
+            name: 'Brig',
             size: 3, 
-            img: Img
+            img: Brig
         },
         ds: {
-            name: 'Destroyer',
+            name: 'Schooner',
             size: 2, 
-            img: Img
+            img: Schooner
         }
     }
 };
