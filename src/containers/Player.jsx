@@ -163,7 +163,7 @@ Player.propTypes = {
     onEvent: PropTypes.shape({
         ready: PropTypes.func.isRequired,
         turnEnd: PropTypes.func.isRequired,
-        sunk: PropTypes.func.isRequired
+        allSunk: PropTypes.func.isRequired
     }).isRequired,
     gameConfig: PropTypes.shape({
         boardSize: PropTypes.object.isRequired,
