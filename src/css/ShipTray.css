@@ -16,7 +16,7 @@
     display: grid;
     justify-content: center;
     align-content: center;
-    background: black;
+    background: lightblue;
     grid-gap: 1px;
     border: 1px solid black;
 }

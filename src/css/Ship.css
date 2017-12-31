@@ -1,6 +1,4 @@
 .Ship {
-    background-color: green;
-    border: 1px solid red;
     overflow: hidden;
     z-index: 10;
 }
