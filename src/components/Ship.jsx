@@ -13,7 +13,7 @@ class Ship extends PureComponent {
 
     handleClick() {
         if (this.props.onClick) {
-            this.props.onClick(this.props.ship.id, true);
+            this.props.onClick(this.props.ship.id);
         }
     }
 
@@ -39,12 +39,14 @@ class Ship extends PureComponent {
 }
 
 Ship.propTypes = {
+    onClick: PropTypes.func,
+
     noClick: PropTypes.bool,
 
     ship: PropTypes.shape({
         id: PropTypes.string.isRequired,
         horizontal: PropTypes.bool.isRequired,
-        sunk: PropTypes.bool,
+        sunk: PropTypes.bool.isRequired,
         row: PropTypes.number.isRequired,
         col: PropTypes.number.isRequired
     }).isRequired,
