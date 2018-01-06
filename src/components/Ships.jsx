@@ -7,21 +7,22 @@ import Ship from './Ship';
  */
 class Ships extends PureComponent {
     render() {
-        const ships = this.props.ships.map((ship)=>
+
+        return this.props.ships.map((ship)=>
             <Ship 
-                key={ship.id} noClick={this.props.noClick} ship={ship} 
+                key={ship.id} noClick={this.props.noClick} 
+                ship={ship} onClick={this.props.onClick} 
                 gameConfig={this.props.gameConfig} 
             />
         );
-
-        return ships;
     }
 }
 
 Ships.propTypes = {
     ships: PropTypes.arrayOf(PropTypes.object).isRequired,
     gameConfig: PropTypes.object.isRequired,
-    noClick: PropTypes.bool
+    noClick: PropTypes.bool,
+    onClick: PropTypes.func
 };
 
 export default Ships;
