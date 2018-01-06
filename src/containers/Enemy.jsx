@@ -152,7 +152,7 @@ class Enemy extends PureComponent {
                     <Ships gameConfig={this.props.gameConfig} noClick={true} 
                         ships={this.state.sunkShips} />
                 </Board>
-                <ShipTray gameConfig={this.props.gameConfig} />
+                <ShipTray noRotate={true} gameConfig={this.props.gameConfig} />
             </div>
         );
     }
