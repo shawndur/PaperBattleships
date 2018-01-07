@@ -1,8 +1,11 @@
 {
-  "main.css": "static/css/main.673b2e04.css",
-  "main.css.map": "static/css/main.673b2e04.css.map",
-  "main.js": "static/js/main.1f6149d7.js",
-  "main.js.map": "static/js/main.1f6149d7.js.map",
-  "static/media/logo.svg": "static/media/logo.5d5d9eef.svg",
-  "static/media/ship.svg": "static/media/ship.f2886935.svg"
+  "main.css": "static/css/main.cb46ef51.css",
+  "main.css.map": "static/css/main.cb46ef51.css.map",
+  "main.js": "static/js/main.db54b3dd.js",
+  "main.js.map": "static/js/main.db54b3dd.js.map",
+  "static/media/Brig.svg": "static/media/Brig.1c395b89.svg",
+  "static/media/Corvette.svg": "static/media/Corvette.f054c020.svg",
+  "static/media/Frigate.svg": "static/media/Frigate.25f5e274.svg",
+  "static/media/Galleon.svg": "static/media/Galleon.a272d105.svg",
+  "static/media/Schooner.svg": "static/media/Schooner.a48bff17.svg"
 }
