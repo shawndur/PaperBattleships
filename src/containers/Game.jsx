@@ -18,7 +18,7 @@ class Game extends Component {
         };
 
         this.state = {
-            playerTurn: true,
+            playerTurn: false,
             playerReady: false,
             enemyReady: false,
             placement: true
@@ -43,7 +43,14 @@ class Game extends Component {
         // set placement to false if both players are ready
         this.setState((prevState)=> {
             const {enemyReady, playerReady} = prevState;
-            return playerReady && enemyReady ? {placement: false} : {};
+            if (playerReady && enemyReady) {
+                return {
+                    placement: false, 
+                    playerTurn: true
+                };
+            } else {
+                return {};
+            }
         });
     }
 
