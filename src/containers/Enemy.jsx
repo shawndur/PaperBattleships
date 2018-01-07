@@ -147,6 +147,7 @@ class Enemy extends PureComponent {
     render() {
         return ( 
             <div className='Enemy'>
+                <h2>Enemy Board</h2>
                 <Board turn={this.props.playerTurn} 
                     gameConfig={this.props.gameConfig} onClick={this.handleBoardClick} >
                     <Shots shots={this.state.shots} />

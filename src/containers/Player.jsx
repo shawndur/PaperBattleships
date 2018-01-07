@@ -147,6 +147,7 @@ class Player extends PureComponent {
     render() {
         return ( 
             <div className='Player'>
+                <h2>Your Board</h2>
                 <ShipTray turn={!this.props.playerTurn} 
                     gameConfig={this.props.gameConfig} onShipSelect={this.handleShipSelect}/>
                 <Board turn={!this.props.playerTurn} 
