@@ -89,7 +89,7 @@ class Enemy extends PureComponent {
             //add shot
             newState.shots.push(shot);
 
-            props.onEvent.turnEnd(true);
+            setTimeout(props.onEvent.turnEnd, 500, true);
 
             return newState;
         });
@@ -147,7 +147,8 @@ class Enemy extends PureComponent {
     render() {
         return ( 
             <div className='Enemy'>
-                <Board gameConfig={this.props.gameConfig} onClick={this.handleBoardClick} >
+                <Board turn={this.props.playerTurn} 
+                    gameConfig={this.props.gameConfig} onClick={this.handleBoardClick} >
                     <Shots shots={this.state.shots} />
                     <Ships gameConfig={this.props.gameConfig} noClick={true} 
                         ships={this.state.sunkShips} />

@@ -15,6 +15,7 @@ class Player extends PureComponent {
         
         this.handleBoardClick = this.handleBoardClick.bind(this);
         this.handleShipSelect = this.handleShipSelect.bind(this);
+        this.shootPlayer = this.shootPlayer.bind(this);
 
         this.state = {
             ships: [],
@@ -66,7 +67,7 @@ class Player extends PureComponent {
             //addShot
             newState.shots.push(shot);
             
-            props.onEvent.turnEnd(false);
+            setTimeout(props.onEvent.turnEnd, 1000, false);
 
             return newState;
         });
@@ -75,7 +76,7 @@ class Player extends PureComponent {
     componentWillReceiveProps(nextProps) {
         //check if not player turn and player turn has changed
         if (!nextProps.playerTurn && this.props.playerTurn !== nextProps.playerTurn) {
-            this.shootPlayer(); 
+            setTimeout(this.shootPlayer, 1000); 
         }
     }
 
@@ -147,7 +148,8 @@ class Player extends PureComponent {
         return ( 
             <div className='Player'>
                 <ShipTray gameConfig={this.props.gameConfig} onShipSelect={this.handleShipSelect}/>
-                <Board gameConfig={this.props.gameConfig} onClick={this.handleBoardClick}>
+                <Board turn={!this.props.playerTurn} 
+                    gameConfig={this.props.gameConfig} onClick={this.handleBoardClick}>
                     <Ships gameConfig={this.props.gameConfig} ships={this.state.ships} 
                         noClick={true}/>
                     <Shots shots={this.state.shots} />
