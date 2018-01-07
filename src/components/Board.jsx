@@ -25,7 +25,7 @@ class Board extends PureComponent {
         const handleClick = this.props.onClick ? this.handleClick : undefined;
         
         return (
-            <div className='Board-container'>
+            <div className={'Board-container' + (this.props.turn ? ' turn' : '')}>
                 <div 
                     className='Board' 
                     style={{gridTemplate: `repeat(${rows},1fr) / repeat(${cols},1fr)`}}
@@ -47,7 +47,8 @@ Board.propTypes = {
         }).isRequired
     }).isRequired,
     children: PropTypes.node,
-    onClick: PropTypes.func
+    onClick: PropTypes.func,
+    turn: PropTypes.bool
 };
 
 export default Board;

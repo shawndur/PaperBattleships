@@ -147,12 +147,15 @@ class Enemy extends PureComponent {
     render() {
         return ( 
             <div className='Enemy'>
-                <Board gameConfig={this.props.gameConfig} onClick={this.handleBoardClick} >
+                <h2>Enemy Board</h2>
+                <Board turn={this.props.playerTurn} 
+                    gameConfig={this.props.gameConfig} onClick={this.handleBoardClick} >
                     <Shots shots={this.state.shots} />
                     <Ships gameConfig={this.props.gameConfig} noClick={true} 
                         ships={this.state.sunkShips} />
                 </Board>
-                <ShipTray gameConfig={this.props.gameConfig} />
+                <ShipTray turn={this.props.playerTurn} 
+                    noRotate={true} gameConfig={this.props.gameConfig} />
             </div>
         );
     }
@@ -164,7 +167,7 @@ Enemy.propTypes = {
     onEvent: PropTypes.shape({
         ready: PropTypes.func.isRequired,
         turnEnd: PropTypes.func.isRequired,
-        sunk: PropTypes.func.isRequired
+        allSunk: PropTypes.func.isRequired
     }).isRequired,
     gameConfig: PropTypes.shape({
         boardSize: PropTypes.object.isRequired,
