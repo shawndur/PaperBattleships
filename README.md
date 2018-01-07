@@ -1,5 +1,5 @@
 # PaperBattleships
-A battleship style game built with [React](https://reactjs.org/) and bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app)
+A battleship style game built with [React](https://reactjs.org/) and bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app). You can try the game by going to https://shawndur.github.io/PaperBattleships/
 
 ## Requirements 
 To run or build the game make sure you have [npm](https://www.npmjs.com/). The best way to get npm is to install [Node](https://nodejs.org/en/).
