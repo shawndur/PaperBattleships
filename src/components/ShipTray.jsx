@@ -74,7 +74,7 @@ class ShipTray extends PureComponent {
         const noRotate = this.props.noRotate;
             
         return(
-            <div className='ShipTray-container'>
+            <div className={'ShipTray-container' + (this.props.turn ? ' turn' : '')}>
                 <div className='ShipTray' 
                     style={{gridTemplate: `repeat(${rows},1fr) / repeat(${cols},1fr)`}} >
                     <Ships ships={this.state.ships} onClick={shipClick}
@@ -121,7 +121,8 @@ ShipTray.propTypes = {
         }
     }).isRequired,
     onShipSelect: PropTypes.func,
-    noRotate: PropTypes.bool
+    noRotate: PropTypes.bool,
+    turn: PropTypes.bool
 };
 
 export default ShipTray;
